@@ -25,6 +25,8 @@ Nodemon:
 --Before we add run scripts to start developing and running the backend code, we will
 define configuration variables for values that are used across the backend
 implementation.
+--place the nodemon.json file
+******yarn add nodemon******
 
 Config variables::
 --config/config.js file, we will define some server-side configuration-related
@@ -83,3 +85,13 @@ install the cors module, run
 
 Lecture 3:
 Starting the server
+**mern-skeleton/server/server.js file
+
+--**yarn development******
+
+Lecture 4:
+Setting up Mongoose and connecting to MongoDB
+--we will start by configuring Mongoose and utilizing it to define a connection with the MongoDB
+database
+--install mongoose module
+********yarn add mongoose**********
