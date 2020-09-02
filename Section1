@@ -1,0 +1,85 @@
+Lecture 1:
+Add package.json
+--**********yarn init************
+
+Lecture 2:
+Development dependencies:
+--In order to begin the development process and run the backend server code, we will
+configure and install Babel, Webpack, and Nodemon, as discussed in Chapter 2,
+Preparing the Development Environment, and make some minor adjustments to the
+backend.
+
+Babel:
+--we need to install the Babel modules as devDependencies from the command
+line:
+--******yarn add --dev @babel/core babel-loader @babel/preset-env*****
+
+Webpack:
+-we can use the same webpack.config.server.js we discussed in
+--From the command line, run the following command to install webpack, webpackcli,
+and the webpack-node-externals module:
+
+****yarn add --dev webpack webpack-cli webpack-node-externals***
+
+Nodemon:
+--Before we add run scripts to start developing and running the backend code, we will
+define configuration variables for values that are used across the backend
+implementation.
+
+Config variables::
+--config/config.js file, we will define some server-side configuration-related
+variables that will be used in the code but should not be hardcoded as a best practice,
+as well as for security purposes.
+
+Running scripts:
+--To run the server as we develop the code for only the backend, we can start with the
+yarn development script in the package.json file
+
+Preparing the Development Environment.
+mern-skeleton/package.json:
+"scripts": {
+"development": "nodemon"
+}
+
+Preparing the server:
+--we will integrate Express, Node, and MongoDB in order to run a
+completely configured server before we start implementing user-specific features.
+
+Configuring Express
+--server/express.js file.
+--From the command line, run the following command to install the express module
+and to have the package.json file automatically updated
+
+***yarn add express***
+
+--to handle http requests and serve responses properly, we use the mdules to configure express
+*******body-parser: Request body-parsing middleware to handle the
+complexities of parsing streamable request objects so that we can simplify
+browser-server communication by exchanging JSON in the request body.
+To install the module, run
+************ yarn add body-parser********* from the command
+line. 
+--Then, configure the Express app
+with bodyParser.json() and bodyParser.urlencoded({ extended:
+true }).
+
+++++cookie-parser: Cookie parsing middleware to parse and set cookies in
+request objects. 
+--To install the cookie-parser module, run
+******* yarn add cookie-parser******
+
+++++compression: Compression middleware that will attempt to compress
+response bodies for all requests that traverse through the middleware. To
+install the compression module, run 
+***********yarn add compression**********
+
+++++helmet: Collection of middleware functions to help secure Express apps by
+setting various HTTP headers. To install the helmet module, run 
+*********yarn add helmet******.
+
+++++cors: Middleware to enable cross-origin resource sharing (CORS). To
+install the cors module, run 
+******yarn add cors******.
+
+Lecture 3:
+Starting the server
