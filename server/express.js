@@ -5,6 +5,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import Template from '../template'
+import userRoutes from './routes/user.routes'
 
 const app = express()
 
@@ -20,6 +21,10 @@ app.use(cookieParser()) //Cookie parsing middleware to parse and set cookies in 
 app.use(compression()) //Compression middleware that will attempt to compress response bodies for all requests that traverse through the middleware.
 app.use(helmet())  //Collection of middleware functions to help secure Express apps by setting various HTTP headers
 app.use(cors()) //Middleware to enable cross-origin resource sharing (CORS)
+
+
+//routes
+app.use('/', userRoutes)
 
 // --getting the template
 app.get('/', (req, res) => {

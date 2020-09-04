@@ -55,5 +55,41 @@ in the request-response cycle incase an error is made.
 --We will add the getErrorMessage helper method to the
 server/helpers/dbErrorHandler.js file.
 
+Lecture 6:
+Adding user CRUD APIs::
+----To implement these API working endpoints, we will 
+****write Express routes and the corresponding 
+***controller callback functions that should be executed when HTTP
+requests come in for these declared routes. In this section, we will look at how these
+endpoints work without any auth restrictions.
+
+--creating the routes
+server/routes/user.routes.js,
+
+userRoutes
+--The user routes that are defined in the user.routes.js file will use
+express.Router() to define route paths with the relevant HTTP methods and
+assign the corresponding controller function that should be called when these
+requests are received by the server.
+
+--the following routes will be implemented
+    /api/users for the following:
+        Listing users with GET
+        Creating a new user with POST
+    /api/users/:userId for the following:
+        Fetching a user with GET
+        Updating a user with PUT
+        Deleting a user with DELETE
+
+User Controller:
+-The server/controllers/user.controller.js file will contain definitions of the
+controller methods that were used in the preceding user route declarations as
+callbacks to be executed when a route request is received by the server.
+
+--lodash is a JavaScript library that provides utility functions for
+common programming tasks, including the manipulation of arrays
+and objects. To install lodash, run 
+*********yarn add lodash***********
+
 
 
