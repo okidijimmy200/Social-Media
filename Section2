@@ -1,0 +1,50 @@
+Lecture 1:
+Serving an HTML template at a root URL:
+--In the template.js file, add a JS function that returns a simple HTML document
+that will render Hello World on the browser screen.
+
+--To serve this template at the root URL, update the express.js file to import this
+template and send it in the response to a GET request for the '/' route.
+
+--run the file on browser, it prints out hello World
+
+Lecture 2:
+Implementing the user model:
+--We will implement the user model in the server/models/user.model.js file and
+use Mongoose to define the schema with the necessary user data fields.
+
+User schema definition:
+--The user schema definition object that's needed to generate the new Mongoose
+schema will declare all user data fields and associated properties ie name, email, created-at, last-updated-at
+
+Password for auth::
+--The password field is very crucial for providing secure user authentication in any
+application, and each user password needs to be encrypted, validated, and
+authenticated securely as a part of the user model.
+
+Handling the password string as a virtual field::
+--The password string that's provided by the user is not stored directly in the user
+document. Instead, it is handled as a virtual field.
+
+Lecture 3:
+Encryption and authentication::
+--The encryption logic and salt generation logic, which are used to generate the
+hashed_password and salt values representing the password value, are defined as
+UserSchema methods.
+
+--Hashing algorithms generate the same hash for the same input
+value. But to ensure two users don't end up with the same hashed
+password if they happen to use the same password text, we pair
+each password with a unique salt value before generating the
+hashed password for each user. This will also make it difficult to
+guess the hashing algorithm being used because the same user input
+is seemingly generating different hashes.
+
+Lecture 4:
+Password Field validtion:
+--To add validation constraints to the actual password string that's selected by the end
+user, we need to add custom validation logic and associate it with the
+hashed_password field in the schema.
+--this will ensure tht the length of the password is atleast 6 characters long for new users or  for users 
+who are updating their passwords.
+
