@@ -91,5 +91,53 @@ common programming tasks, including the manipulation of arrays
 and objects. To install lodash, run 
 *********yarn add lodash***********
 
+Lecture 7:
+Creting a new user::
+-Async/await is an addition to ES8 that allows us to write
+asynchronous JavaScript code in a seemingly sequential or
+synchronous manner. For controller functions that handle
+asynchronous behavior such as accessing the database, we will use
+the async/await syntax to implement them.
+
+Lecture 8:
+Listing all Users:
+--The list controller function finds all the users from the database, populates only the
+name, email, created, and updated fields in the resulting user list, and then returns
+this list of users as JSON objects in an array to the requesting client
+
+Lecture 9:
+Loading a user by ID to read, update, or delete::
+--All three API endpoints for read, update, and delete require a user to be loaded from
+the database based on the user ID of the user being accessed
+
+Reading::
+--The read function retrieves the user details from req.profile and removes
+sensitive information, such as the hashed_password and salt values, before
+sending the user object in the response to the requesting client
+
+Updating:
+--When the Express app gets a PUT request at '/api/users/:userId', similar to
+read, it loads the user with the :userId parameter value before executing the
+update controller function.
+
+--The update function retrieves the user details from req.profile and then uses the
+lodash module to extend and merge the changes that came in the request body to
+update the user data. Before saving this updated user to the database, the updated
+field is populated with the current date to reflect the last updated timestamp. Upon
+successfully saving this update, the updated user object is cleaned by removing
+sensitive data, such as hashed_password and salt, before sending the user object in
+the response to the requesting client
+
+deleting :
+--When the Express app gets a DELETE request at '/api/users/:userId', similar to
+read and update, it loads the user by ID and then the remove controller function is
+executed
+
+--The remove function retrieves the user from req.profile and uses the remove()
+query to delete the user from the database. On successful deletion, the requesting
+client is returned the deleted user object in the response.
+
+
+
 
 
