@@ -48,3 +48,12 @@ hashed_password field in the schema.
 --this will ensure tht the length of the password is atleast 6 characters long for new users or  for users 
 who are updating their passwords.
 
+Lecture 5:
+Mongoose error handling:
+--we will define a helper method tht returns a relevant error message tht can be propagated
+in the request-response cycle incase an error is made.
+--We will add the getErrorMessage helper method to the
+server/helpers/dbErrorHandler.js file.
+
+
+
