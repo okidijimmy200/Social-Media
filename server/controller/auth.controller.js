@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import config from '../../config/config'
 
-const signin = (req, res) => {
+const signin = async (req, res) => {
     // The POST request object receives the email and password in req.body
     try {
         // This email is used to retrieve a matching user from the database
@@ -51,7 +51,8 @@ const signout = (req, res) => {
 
 const requireSignin = expressJwt({
     secret: config.jwtSecret,
-    userProperty: 'auth'
+    userProperty: 'auth',
+    algorithms: ['RS256']
 })
 
 /**the hasAuthorization function defined in auth.controller.js

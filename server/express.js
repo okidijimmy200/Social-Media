@@ -28,6 +28,18 @@ app.use(cors()) //Middleware to enable cross-origin resource sharing (CORS)
 app.use('/', userRoutes)
 app.use('/', authRoutes) //This will make the routes we define in auth.routes.js accessible from the clientside.
 
+app.use((req, res, next) => {
+    // express-jwt throws an error named UnauthorizedError when a token cannot be validated for some reason
+    if(err.name === "UnauthorizedError") {
+        res.status(401).json({"error": err.name + ": " + err.message})
+
+    }
+    else if (err) {
+        res.status(400).json({"error": err.name + ": " + err.message})
+        console.log(err)
+    }
+})
+
 // --getting the template
 app.get('/', (req, res) => {
     res.status(200).send(Template())

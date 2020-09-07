@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import crypto from 'crypto'
 
 /**The mongoose.Schema() function takes a schema definition object as a parameter to
 generate a new Mongoose schema object that will specify the properties or structure
@@ -17,20 +18,22 @@ const Userschema = new mongoose.Schema({
         match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         required: 'Email is required'
     },
-    /**These Date values will be programmatically generated to record timestamps that
-indicate when a user is created and user data is updated */
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    updated: Date,
-    /**The hashed_password and salt fields represent the encrypted user password that
+      /**The hashed_password and salt fields represent the encrypted user password that
 we will use for authentication */
     hashed_password: {
         type: String,
         required: 'Password is required'
     },
-    salt: String
+    salt: String,
+    updated: Date,
+     /**These Date values will be programmatically generated to record timestamps that
+indicate when a user is created and user data is updated */
+    created: {
+        type: Date,
+        default: Date.now
+    },
+  
+    
     /**NB:The actual password string is not stored directly in the database for security purposes
 and is handled separately */
 })
@@ -51,6 +54,18 @@ Userschema
 a new hashed value and set to the hashed_password field, along with the
 unique salt value in the salt field.
      */
+
+     
+//adding custom validation logic to the actual password string selected by the end user
+Userschema.path('hashed_password').validate(function(v) {
+    //ensuring tht the password for new user created or an existing user updated is atleast 6 characters
+    if(this._password && this._password.length < 6) {
+        this.invalidate('password', 'Password must be atleast 6 characters.')
+    }
+    if(this.isNew && !this._password) {
+        this.invalidate('password', 'Password is required')
+    }
+}, null)
 
 /**encryption logic and salt generation logic, which are used to generate the
 hashed_password and salt values */
@@ -84,16 +99,7 @@ the current timestamp at execution and Math.random(). */
     }
 }
 
-//adding custom validation logic to the actual password string selected by the end user
-Userschema.path('hashed_password').validate(function(v) {
-    //ensuring tht the password for new user created or an existing user updated is atleast 6 characters
-    if(this._password && this._password.length < 6) {
-        this.invalidate('password', 'Password must be atleast 6 characters.')
-    }
-    if(this.isNew && !this._password) {
-        this.invalidate('password', 'Password is required')
-    }
-}, null)
+
 export default mongoose.model("User", Userschema)
 
 /**NB:The crypto module provides a range of cryptographic

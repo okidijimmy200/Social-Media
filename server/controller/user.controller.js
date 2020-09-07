@@ -8,7 +8,7 @@ requests with meaningful messages when a Mongoose error occurs */
 
 //When the Express app gets a POST request at '/api/users', it calls the create
 // function we defined in the controller.
-const create = async(req, res) => {
+const create = async (req, res) => {
     /**new user with the user JSON object that's received in the POST
 request from the frontend within req.body. */
     const user = new User(req.body)
