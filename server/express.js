@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import compression from 'compression'
 import Template from '../template'
 import userRoutes from './routes/user.routes'
+import authRoutes from './routes/auth.routes'
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use(cors()) //Middleware to enable cross-origin resource sharing (CORS)
 
 //routes
 app.use('/', userRoutes)
+app.use('/', authRoutes) //This will make the routes we define in auth.routes.js accessible from the clientside.
 
 // --getting the template
 app.get('/', (req, res) => {

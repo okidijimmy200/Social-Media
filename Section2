@@ -137,6 +137,63 @@ executed
 query to delete the user from the database. On successful deletion, the requesting
 client is returned the deleted user object in the response.
 
+Lecture 10:
+Integrating user auth and protected routes
+--To restrict access to user operations such as user profile view, user update, and user
+delete, we will first implement sign-in authentication with JWT, then use it to protect
+and authorize the read, update, and delete routes.
+
+--we will use the auth.routes.js
+
+--The auth routes are as follows:
+'/auth/signin': POST request to authenticate the user with their email
+and password
+'/auth/signout': GET request to clear the cookie containing a JWT that
+was set on the response object after sign-in
+
+
+-we create the authCtrl file
+
+Signin:
+--Then, the signed JWT is returned to the authenticated client, along with the user's
+details. Optionally, we can also set the token to a cookie in the response object so that
+it is available to the client-side if cookies are the chosen form of JWT storage. On the
+client-side, this token must be attached as an Authorization header when
+requesting protected routes from the server. To sign-out a user, the client-side can
+simply delete this token depending on how it is being stored. In the next section, we
+will learn how to use a signout
+
+signout:
+signout function clears the response cookie containing the signed JWT
+--With JWT, user state storage is the client's responsibility, and there are multiple
+options for client-side storage besides cookies. On signout, the client needs to delete
+the token on the client-side to establish that the user is no longer authenticated. On
+the server-side, we can use and verify the token that's generated at sign-in to protect
+routes that should not be accessed without valid authentication. In the next section,
+we will learn how to implement these protected routes using JWT.
+
+Protecting routes with express-JWT::
+--To protect access to the read, update, and delete routes, the server will need to check
+that the requesting client is actually an authenticated and authorized user.
+
+--To check whether the requesting user is signed in and has a valid JWT when a
+protected route is accessed, we will use the express-jwt module.
+
+Protecting user routes::
+we implement protexcting of user routes to enable authentication and authorization of user data
+
+Requiring signin:
+--The requireSignin method in auth.controller.js uses express-jwt to verify
+that the incoming request has a valid JWT in the Authorization header.
+
+--If the token
+is valid, it appends the verified user's ID in an 'auth' key to the request object;
+otherwise, it throws an authentication error.
+
+Authorizing signed in users;
+--For some of the protected routes, such as update and delete, on top of checking for
+authentication we also want to make sure the requesting user is only updating or
+deleting their own user information.
 
 
 
