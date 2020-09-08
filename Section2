@@ -205,6 +205,33 @@ Checking the standalone backend::
 --there are multiple ways of checking whether our backend code is functioning ie using postman
 
 Creating a new user:
+http://localhost:8080/api/users --create new user using postman with name, email, password
+
+Fetching the user list:;
+--to fetch users, we use get request to /api/users.
+--the results only displays name, email and created field values and not salt or hashed password bse
+--The request only retrieves the selected
+fields we specified in the Mongoose find query that we made in the list controller
+method.
+
+Fetching a single user:
+--Next, we will try to access a protected API without signing in first. A GET request to
+read any one of the users will return a 401 Unauthorized error, such as in the
+following example. Here, a GET request to
+/api/users/5a1c7ead1a692aa19c3e7b33 returns a 401 error:
+
+--To make this request return a successful response with user details, a valid
+authorization token needs to be provided in the request header
+
+signing in:
+--we shd signin to our system
+--To sign-in, a POST request is sent
+to /auth/signin with the email and password in the request body, as shown in the
+following screenshot:
+
+Fetching a single user successfully::
+--the authorization header in the Bearer scheme we made when making the GET request
+
 
 
 
