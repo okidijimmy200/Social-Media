@@ -9,6 +9,11 @@ backend code.*/
                     "node":"current"
                 }
             }
-        ]
+        ],
+        //loader for react
+        "@babel/preset-react"
+    ],
+    "plugins": [
+        "react-hot-loader/babel"
     ]
 }

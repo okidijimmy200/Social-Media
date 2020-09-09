@@ -7,8 +7,22 @@ import compression from 'compression'
 import Template from '../template'
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
+import devBundle from './devBundle'
+import path from 'path'
 
 const app = express()
+//These lines are only meant for development mode and should be
+//commented out when building the code for production.
+devBundle.compile(app)
+
+/**middleware, along with
+the client-side Webpack configuration. Then, it will initiate Webpack to compile and
+bundle the client-side code and also enable hot reloading. */
+
+//configure express.js so that it serves static files from the dist folder
+const CURRENT_WORKING_DIR = process.cwd()
+app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
+
 
 /* ...configure express */
 /**body-parser: Request body-parsing middleware to handle the
