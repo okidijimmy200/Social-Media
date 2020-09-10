@@ -11,7 +11,7 @@ to a value of "production". */
     /* devtool: specifies how source maps are generated, if at all. Generally, a
 source map provides a way of mapping code within a compressed file back
 to its original position in a source file to aid debugging*/
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-source-map',
     /*entry: specifies the entry file where Webpack starts bundling, in this case
 with the main.js file in the client folder. */
     entry: [
@@ -38,6 +38,10 @@ babel-loader. */
                 use: [
                     'babel-loader'
                 ]
+            },
+            {
+                test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+                use: 'file-loader'
             }
         ]
     },  

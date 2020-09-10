@@ -1,14 +1,15 @@
 import express from 'express'
+import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import compression from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
-import compression from 'compression'
 import Template from '../template'
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
 import devBundle from './devBundle'
-import path from 'path'
+
 
 const app = express()
 //These lines are only meant for development mode and should be
@@ -42,7 +43,7 @@ app.use(cors()) //Middleware to enable cross-origin resource sharing (CORS)
 app.use('/', userRoutes)
 app.use('/', authRoutes) //This will make the routes we define in auth.routes.js accessible from the clientside.
 
-app.use((req, res, next) => {
+app.use((err, req, res, next) => {
     // express-jwt throws an error named UnauthorizedError when a token cannot be validated for some reason
     if(err.name === "UnauthorizedError") {
         res.status(401).json({"error": err.name + ": " + err.message})
