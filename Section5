@@ -1,0 +1,22 @@
+Lecture 1:
+Fetch for the auth API::
+In order to integrate the auth API endpoints from the server with the frontend React
+components, we will add methods for fetching sign-in and sign-out API endpoints in
+the client/auth/api-auth.js file.
+
+Sign-in::
+--The signin method will take user sign-in data from the view component, then use
+fetch to make a POST call to verify the user with the backend.
+---The component invoking this method
+needs to handle the response appropriately, such as storing the received JWT locally
+so it can be used when making calls to other protected API routes from the frontend.
+
+Sign-Out::
+--signout uses fetch to make a GET
+call to the signout API endpoint on the server.
+
+***With these API fetch methods added, the React frontend has complete access to the
+endpoints we made available in the backend.
+
+L
+
