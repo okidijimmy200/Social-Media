@@ -49,3 +49,4 @@ js to call the signout API in the backend */
         document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
     })
 }
+

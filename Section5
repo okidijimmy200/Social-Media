@@ -70,3 +70,35 @@ JWT credentials from sessionStorage
 Lecture 4:
 The PrivateRoute component::
 --declaring protected routes for the frontend to restrict view access based on user auth
+
+Lecture 5:
+Completing the User frontend::
+--here we will complete the view, create modify user data stored in the db wit resp to auth restrictions
+
+**Users: To fetch and list all users from the database to the view
+**Signup: To display a form that allows new users to sign up
+**Signin: To display a form that allows existing users to sign in
+**Profile: To display details for a specific user after retrieving from the
+database
+*EditProfile: To display details for a specific user and allow authorized
+user to update these details
+**DeleteUser: To allow an authorized user to delete their account from the
+application
+**Menu: To add a common navigation bar to each view in the application
+
+The Users component::
+--that have been fetched from the database and links each name to the user profile. The
+following component can be viewed by any visitor to the application and will render
+at the '/users' route:
+
+--The argument that's passed to useState
+is the initial value of this variable – in other words, the initial state. Invoking
+useState returns the current state and a function that updates the state value, which
+is similar to this.setState in a class definition.
+With the users state initialized, next, we will use another built-in React hook named
+useEffect to fetch a list of users from the backend and update the users value in
+the state.
+
+--To add this Users component to the React application, we need to update the
+MainRouter component with a Route that renders this component at the
+'/users' path.
