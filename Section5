@@ -67,3 +67,6 @@ Deleting credentials::
 --When a user successfully signs out from the application, we want to clear the stored
 JWT credentials from sessionStorage
 
+Lecture 4:
+The PrivateRoute component::
+--declaring protected routes for the frontend to restrict view access based on user auth
