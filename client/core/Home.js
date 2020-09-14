@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import unicornbikeImg from './../assets/images/unicornbike.jpg'
 import {Link } from 'react-router-dom'
 
+
 const useStyles = makeStyles(theme => ({
     // The JSS style objects defined here will be injected into the component using the hook
 // returned by makeStyles.
@@ -36,6 +37,7 @@ export default function Home() {
             <Link to="/users">Users</Link>
             <Link to="/signup">SignUp</Link>
             <Link to="/signin">SignIn</Link>
+            <Link to="/user/:userId">Profile</Link>
             <Typography variant="h6" className={classes.title}>
                 Home Page
             </Typography>
