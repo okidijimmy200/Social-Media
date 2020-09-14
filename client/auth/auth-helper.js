@@ -1,25 +1,30 @@
+import { signout } from './api-auth.js'
+
+const auth = {
+/////////////////////////////////////////////////////////////////
+//////////////authenticate user///////////////////////////////
 /**In order to save the JWT credentials that are received from the server on successful
 sign-in, we use the authenticate method */
 
-authenticate(jwt, cb); {
-/**The authenticate method takes the JWT credentials, jwt, and a callback
-function, cb, as arguments */
+authenticate(jwt, cb) {
+    /**The authenticate method takes the JWT credentials, jwt, and a callback
+    function, cb, as arguments */
+    
+        if(typeof window !== "undefined")
+    // It stores the credentials in sessionStorage after ensuring window is defined,
+        sessionStorage.setItem('jwt', JSON.stringify(jwt))
+    // --execute the callback function
+        cb()
+},
 
-    if(typeof window !== "undefined")
-// It stores the credentials in sessionStorage after ensuring window is defined,
-    sessionStorage.setItem('jwt', JSON.stringify(jwt))
-// --execute the callback function
-    cb()
-}
+    /**we will need to retrieve the stored credentials from sessionStorage to check if
+the current user is signed in. */
 
 
 /////////////////////////////////////////////////////////////////
 ///isAuthenticated//////////////////////////////////////////////
 
-/**we will need to retrieve the stored credentials from sessionStorage to check if
-the current user is signed in. */
-
-isAuthenticated(); {
+isAuthenticated() {
     if (typeof window == "undefined")
 //incase no credentails founf in sessionStorage
         return false
@@ -28,7 +33,7 @@ isAuthenticated(); {
         return JSON.parse(sessionStorage.getItem('jwt'))
     else 
         return false
-}
+},
 
 ////////////////////////////////////////////////////////////////
 ////////////////////Deleting credentials//////////////////////
@@ -36,7 +41,7 @@ isAuthenticated(); {
 /**When a user successfully signs out from the application, we want to clear the stored
 JWT credentials from sessionStorage by using clearJWT */
 
-clearJWT(cb); {
+clearJWT(cb) {
     if (typeof window !== "undefined")
 // reoving JWT  credential from sessionStorage
         sessionStorage.removeItem('jwt')
@@ -49,4 +54,9 @@ js to call the signout API in the backend */
         document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
     })
 }
+
+}
+
+export default auth
+
 

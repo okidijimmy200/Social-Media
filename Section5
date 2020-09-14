@@ -102,3 +102,18 @@ the state.
 --To add this Users component to the React application, we need to update the
 MainRouter component with a Route that renders this component at the
 '/users' path.
+
+Lecture 6:
+The Signup component::
+--client/user/Signup.js presents a form with name,
+email, and password fields to the user for sign-up at the '/signup' path, as
+displayed in the following screenshot:
+
+Lecture 7:
+The Signin component::
+--this is similar to the signup component
+--The key difference is
+in the implementation of redirection after a successful sign-in and storing the received
+JWT credentials
+--For redirection, we will use the Redirect component from React Router. First,
+initialize a redirectToReferrer value to false in the state with the other fields:
