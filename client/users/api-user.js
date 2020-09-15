@@ -50,13 +50,13 @@ const read = async (params, credentials, signal) => {
 /**The JWT is attached to the GET fetch call in the Authorization header using the
 Bearer scheme, and then the response from the server is returned to the component
 in a promise. */
-        let response = await fetch('/api/users/'+params.userId, {
+        let response = await fetch('/api/users/' + params.userId, {
             method: "GET",
             signal: signal,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + credentials
+                'Authorization': 'Bearer ' + credentials.t
             }
         })
 /**This promise, when it resolves, will either give the component the user

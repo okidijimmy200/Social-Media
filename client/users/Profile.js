@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import List from '@material-ui/core/List'
@@ -13,7 +13,7 @@ import Edit from '@material-ui/icons/Edit'
 import Person from '@material-ui/icons/Person'
 import Divider from '@material-ui/core/Divider'
 import DeleteUser from './DeleteUser'
-import auth from './../auth/auth-helper'
+import auth from '../auth/auth-helper'
 import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
 
@@ -36,10 +36,11 @@ otherwise, the user should be redirected to the Sign In view. */
 
 
 
-export default function({ match }) {
+export default function Profile({ match }) {
     const classes = useStyles()
     const [user, setUser] = useState({})
     const [redirectToSignin, setRedirectToSignin] = useState(false)
+    const jwt = auth.isAuthenticated()
 
 /**We also need to get access to the match props passed by the Route component,
 which will contain a :userId parameter value. This can be accessed as
@@ -51,16 +52,16 @@ the JWT is retrieved from sessionStorage using the isAuthenticated method
 from auth-helper.js, and passed in the call to read */
         const abortController = new AbortController()
         const signal = abortController.signal
-        const jwt = auth.isAuthenticated()
+        
 /**Once the server responds, either the state is updated with the user information or the
 view is redirected to the Sign In view if the current user is not authenticated */
         read({
             userId: match.params.userId
         }, {t: jwt.token}, signal).then((data) => {
             if (data && data.error) {
-                setRedirectToSignin(true)
+            setRedirectToSignin(true)
             } else {
-                setUser(data)
+            setUser(data)
             }
         })
 /**We also
@@ -70,7 +71,7 @@ component unmounts. */
             abortController.abort()
         }
         
-    },[match.params.userId])
+    }, [match.params.userId])
 /**This effect only needs to rerun when the userId parameter changes in the route, for
 example, when the app goes from one profile view to the other. To ensure this effect
 reruns when the userId value updates, we will add [match.params.userId] in
@@ -85,44 +86,43 @@ the second argument to useEffect. */
 //return the profile view if the  user currently signed in is viewing another user's profile
 
     return (
-        <Paper className={classes.root} elevate={4}>
-            <Typography variant="h6" className={classes.title}>
-                Profile
-            </Typography>
-            <List dense>
-                <ListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <Person />
-                    </Avatar>
-                </ListItemAvatar>
+        <Paper className={classes.root} elevation={4}>
+        <Typography variant="h6" className={classes.title}>
+          Profile
+        </Typography>
+        <List dense>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <Person/>
+              </Avatar>
+            </ListItemAvatar>
 {/* Edit button and a
 DeleteUser component, which will render conditionally based on whether the
 current user is viewing their own profile. */}
-                <ListItemText primary={user.name} secondary={user.email} /> {
-                    auth.isAuthenticated().user && auth.isAuthenticated().user._id == user._id &&
-                    (
-                        <ListItemSecondaryAction>
-                            <Link to={"/user/edit" + user._id}>
-                                <IconButton aria-label="Edit" color="primary">
+                <ListItemText primary={user.name} secondary={user.email}/> {
+             auth.isAuthenticated().user && auth.isAuthenticated().user._id == user._id &&
+              (<ListItemSecondaryAction>
+                <Link to={"/user/edit/" + user._id}>
+                  <IconButton aria-label="Edit" color="primary">
         {/* The Edit button will route to the EditProfile component */}
-                                    <Edit/> 
-                                </IconButton>
-                            </Link>
+                    <Edit/>
+                  </IconButton>
+                </Link>
         {/* custom DeleteUser component will handle the delete operation with the userId passed to
 it as a prop. */}
                             <DeleteUser userId={user._id} />
-                        </ListItemSecondaryAction>
-                    )
+                        </ListItemSecondaryAction>)
 
                 }
-            </ListItem>
-            <Divider/>
-            <ListItem>
-               <ListItemText primary={"Joined:" + (
-                   new Date(user.created)).toDateString()}/> 
-            </ListItem>
-            </List>
-        </Paper>
+             </ListItem>
+          <Divider/>
+          <ListItem>
+            <ListItemText primary={"Joined: " + (
+              new Date(user.created)).toDateString()}/>
+          </ListItem>
+        </List>
+      </Paper>
     )
 }
+

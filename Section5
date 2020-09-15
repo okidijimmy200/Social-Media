@@ -151,3 +151,15 @@ The DeleteUser component::
 --s is basically a button
 that we will add to the Profile view that, when clicked, opens a Dialog component
 asking the user to confirm the delete action.
+
+Lecture 11:
+The Menu component::
+--The Menu component will function as a navigation bar across the frontend application
+by providing links to all the available views, and also by indicating the user's current
+location in the application.
+
+--The remaining links such as SIGN IN, SIGN UP, MY PROFILE, and SIGN OUT will
+show up on the Menu based on whether the user is signed in or not.
+
+--To have the Menu navigation bar present in all the views, we need to add it to the
+MainRouter before all the other routes, and outside the Switch component.

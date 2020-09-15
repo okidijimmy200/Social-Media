@@ -93,6 +93,6 @@ user will be signed out and redirected to the Home view. */
 //Validating props with PropTypes
 //Since we are using the DeleteUser component in the Profile component, it gets
 //added to the application view when Profile is added in MainRouter.
-DeleteUser.PropTypes = {
+DeleteUser.propTypes = {
     userId: PropTypes.string.isRequired
 }
