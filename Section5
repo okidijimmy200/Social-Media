@@ -135,3 +135,19 @@ view is redirected to the Sign In view if the current user is not authenticated
 --However, if the user that's currently signed in is viewing their own profile, they will
 be able to see edit and delete options in the Profile component, as shown in the
 following screenshot:
+
+Lecture 9:
+The EditProfile component:
+--here the authorized user can edit their won profile information in a form similar to signup form
+
+--Upon loading at '/user/edit/:userId', the component will fetch the user's
+information with their ID after verifying JWT for auth, and then load the form with
+the received user information. The form will allow the user to edit and submit only
+the changed information to the update fetch call, and, on successful update, redirect
+the user to the Profile view with updated information.
+
+Lecture 10:
+The DeleteUser component::
+--s is basically a button
+that we will add to the Profile view that, when clicked, opens a Dialog component
+asking the user to confirm the delete action.
