@@ -163,3 +163,82 @@ show up on the Menu based on whether the user is signed in or not.
 
 --To have the Menu navigation bar present in all the views, we need to add it to the
 MainRouter before all the other routes, and outside the Switch component.
+
+Lecture 12:
+Implementing basic server-side rendering:
+---Currently, when the React Router routes or pathnames are directly entered in the
+browser address bar or when a view that is not at the root path is refreshed, the URL
+does not work. This happens because the server does not recognize the React Router
+routes we defined in the frontend. We have to implement basic server-side rendering
+on the backend so that the server is able to respond when it receives a request to a
+frontend route.
+
+--To render the relevant React components properly when the server receives requests
+to the frontend routes, we need to initially generate the React components on the
+server-side with regard to the React Router and Material-UI components, before the
+client-side JS is ready to take over the rendering.
+
+***The basic idea behind server-side rendering React apps is to use the
+renderToString method from react-dom to convert the root React component into
+a markup string. Then, we can attach it to the template that the server renders when it
+receives a request.***
+
+Lecture 13:
+Modules for server-side rendering:
+import following to express.js file
+****React modules: The following modules are required to render the React
+components and use renderToString:
+    import React from 'react'
+    import ReactDOMServer from 'react-dom/server'
+****Router modules: StaticRouter is a stateless router that takes the
+requested URL to match with the frontend route which was declared in the
+MainRouter component. The MainRouter is the root component in our
+frontend.
+    import StaticRouter from 'react-router-dom/StaticRouter'
+    import MainRouter from './../client/MainRouter'
+****Material-UI modules and the custom theme: The following modules will
+help generate the CSS styles for the frontend components based on the
+stylings and Material-UI theme that are used on the frontend:
+    import { ServerStyleSheets, ThemeProvider } from '@materialui/
+styles'
+    import theme from './../client/theme'
+
+Lecture 15:
+Generating CSS and markup::
+--To generate the CSS and markup representing the React frontend views on the serverside,
+we will use Material-UI's ServerStyleSheets and React's renderToString.
+--On every request received by the Express app, we will create a new
+ServerStyleSheets instance. Then, we will render the relevant React tree with the
+server-side collector in a call to renderToString, which ultimately returns the
+associated markup or HTML string version of the React view that is to be shown to
+the user in response to the requested URL.
+
+Lecture 16:
+Sending a template with markup and CSS::
+---Once the markup has been generated, we need to check if there was a redirect
+rendered in the component to be sent in the markup. If there was no redirect, then we
+get the CSS string from sheets using sheets.toString, and, in the response, we
+send the Template back with the markup and CSS injected, as shown in the
+following code.
+
+--An example of a case where redirect is rendered in the component is when we're
+trying to access a PrivateRoute via a server-side render. As the server-side cannot
+access the auth token from the browser's sessionStorage, the redirect in
+PrivateRoute will render. The context.url value , in this case, will have the
+'/signin' route, and hence, instead of trying to render the PrivateRoute
+component, it will redirect to the '/signin' route.
+
+Lecture 17:
+Updating template.js
+--The markup and CSS that we generated on the server must be added to the
+template.js HTML code for it to be loaded when the server renders the template.
+
+Updating App.js:
+--Once the code that's been rendered on the server-side reaches the browser and the
+frontend script takes over, we need to remove the server-side injected CSS when the
+root React component mounts, using the useEffect hook.
+
+Hydrate instead of render::
+--Now that the React components will be rendered on the server-side, we can update
+the main.js code so that it uses ReactDOM.hydrate() instead of
+ReactDOM.render():

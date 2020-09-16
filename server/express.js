@@ -8,6 +8,17 @@ import helmet from 'helmet'
 import Template from '../template'
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
+
+// modules for server side rendering
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import MainRouter from './../client/MainRouter'
+import { StaticRouter } from 'react-router-dom'
+
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/styles'
+import theme from './../client/theme'
+//end
+
 import devBundle from './devBundle'
 
 
@@ -56,8 +67,34 @@ app.use((err, req, res, next) => {
 })
 
 // --getting the template
-app.get('/', (req, res) => {
-    res.status(200).send(Template())
+/**generates some server-side rendered markup and the CSS of the relevant React
+component tree, before adding this markup and CSS to the template. */
+app.get('*', (req, res) => {
+    // 1. Generate CSS styles using Material-UI's ServerStyleSheets
+    const sheets = new ServerStyleSheets()
+    const context = {}
+    const markup = ReactDOMServer.renderToString( //renderToString returns markup containing the relevant view
+        sheets.collect(
+            <StaticRouter location={req.url} context={context}>
+{/* stateles staticRouter is used instead of browserRouter tht is used on client side */}
+                <ThemeProvider theme={theme}>
+{/* MainRouter is wrapped with material-UL themeProvider to provide styling props needed by main Router child component */}
+                    <MainRouter />
+                </ThemeProvider>
+            </StaticRouter>
+        )
+    )
+    // 2. Use renderToString to generate markup which renders
+    // components specific to the route requested
+    if (context.url) {
+        return res.redirect(303, context.ur)
+    }
+    const css = sheets.toString()
+// 3. Return template with markup and CSS styles in the response
+    res.status(200).send(Template({
+        markup: markup,
+        css: css
+    }))
 })
 
 export default app

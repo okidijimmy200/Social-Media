@@ -6,6 +6,11 @@ import theme from './theme'
 import { hot } from 'react-hot-loader'
 
 const App = () => {
+
+/**Once the code that's been rendered on the server-side reaches the browser and the
+frontend script takes over, we need to remove the server-side injected CSS when the
+root React component mounts, using the useEffect hook. */
+//this gives back full control of how the react-app renders to the client-side
     React.useEffect(() => {
         const jssStyles = document.querySelector('#jss-server-side')
         if (jssStyles) {
