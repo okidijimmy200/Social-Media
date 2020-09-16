@@ -1,0 +1,99 @@
+Introducing MERN Social::
+--existing social media platforms such as Facebook and Twitter. The main purpose of
+this application is to demonstrate how to use the MERN stack technologies to
+implement features that allow users to connect or follow each other, and interact over
+shared content.
+
+User profile with a description and a photo
+Users following each other
+Who to follow suggestions
+Posting messages with photos
+Newsfeed with posts from followed users
+Listing posts by user
+Liking posts
+Commenting on posts
+
+Lecture 2:
+Updating the user profile::
+---But in MERN Social, we will allow users to add a description about
+themselves, as well as upload a profile photo while editing the profile after signing
+up, as shown in the following screenshot:
+
+--frontend. In the following sections, we will learn how to update the user model
+and user update API in the backend, and then the user profile and user profile edit
+form views in the frontend to add a short description and a profile photo for users in
+MERN Social.
+
+Adding an about description::
+---To store the short description that's entered in the about field by a user, we need to
+add an about field to the user model in server/models/user.model.js:
+
+--Then, to get the description as input from the user, we need to add a multiline
+TextField to the EditProfile form and handle the value change the same way we
+did for the user's name input
+
+--Finally, to show the description text that was added to the about field on the user
+profile page, we can add it to the existing profile view.
+
+Lecture 2:
+Uploading a profile photo
+--Allowing a user to upload a profile photo will require that we store the uploaded
+image file and retrieve it on request to load it in the view
+
+there are multiple ways of stroing images in the DB
+1) Server filesystem: Upload and save files to a server filesystem and store
+the URL in MongoDB.
+2) External file storage: Save files to external storage such as Amazon S3 and
+store the URL in MongoDB.
+3) Store as data in MongoDB: Save files that are small in size (less than 16
+MB) to MongoDB as data of the Buffer type.
+
+For MERN Social, we will assume that the photo files that are uploaded by the user
+will be small in size and demonstrate how to store these files in MongoDB for the
+profile photo upload feature.
+
+to implement the photo upload
+1) Update the user model to store the photo.
+2) Integrate updated frontend views to upload the photo from the client- side.
+3) Modify the user update controller in the backend to process the uploaded
+photo
+
+Updating the user model to store a photo in
+MongoDB
+
+Uploading a photo from the edit form::
+--Users will be able to upload an image file from their local files when editing the
+profile
+--to achieve this we will update the EditProfile component in client/user/EditProfile.js with an upload photo option and
+then attach the user selected file in the form data that's submitted to the server.
+
+File input with Material-UI::
+--We will utilize the HTML5 file input type to let the user select an image from their
+local files.
+
+
+Form submission with the file attached::
+file selected for uploading, next, we have to attach and send this file
+with the request to the server to update the user information in the database.
+
+***Uploading files to the server with a form requires a multipart form submission. This
+is in contrast to the stringified object we sent in previous implementations of fetch.***
+
+--we will use FormData API to
+store the form data in the format needed for encoding in the multipart/formdata
+type.
+
+Processing a request containing a file upload::
+--On the server, to process the request to the update API that may now contain a file,
+we will use the formidable Node module.
+
+***************yarn add formidable***************
+
+The formidable will allow the server to read the multipart form data and give us
+access to the fields and the file, if there are any. If there is a file, formidable will
+store it temporarily in the filesystem. We will read it from the filesystem using the fs
+module, which will retrieve the file type and data, and store it in the photo field in
+the user model
+--this will go in the update controller in user.controler.js
+
+pg 160

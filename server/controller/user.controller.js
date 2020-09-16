@@ -1,6 +1,8 @@
 import User from '../models/user.model'
 import extend from 'lodash/extend'
 import errorHandler from '../helpers/dbErrorHandler'
+import formidable from 'formidable'
+import fs from 'fs'
 
 /**--errorHandler helper to respond to route
 requests with meaningful messages when a Mongoose error occurs */
@@ -70,10 +72,25 @@ const read = (req, res) => {
 }
 
 const update = async (req, res) => {
-    try {
+    // formidable allows us read the server and give us access to the fieds and file
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            return res.status(400).json({
+                error: "photo could not be uploaded"
+            })
+        }
         let user = req.profile
-        user = extend(user, req.body)
+        user = extend(user, fields)
         user.updated = Date.now()
+        if(files.photo) {
+            user.photo = fs.readFileSync(files.photo.path)
+            user.photo.contentType = files.photo.type
+        }
+    })
+    try {
+    // This will store the uploaded file as data in the database
         await user.save()
         user.hashed_password = undefined
         user.salt = undefined

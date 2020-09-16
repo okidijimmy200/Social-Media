@@ -32,6 +32,19 @@ indicate when a user is created and user data is updated */
         type: Date,
         default: Date.now
     },
+/**To store the short description that's entered in the about field by a user, we need to
+add an about field  */
+    about: {
+        type: String,
+        trim: true
+    },
+// In order to store the uploaded profile photo directly in the database
+    photo: {
+/**An image file that's uploaded by the user from the client- side will be converted into
+binary data and stored in this photo field */
+        data:  Buffer,
+        contentType: String
+    }
   
     
     /**NB:The actual password string is not stored directly in the database for security purposes

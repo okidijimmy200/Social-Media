@@ -16,6 +16,7 @@ import DeleteUser from './DeleteUser'
 import auth from '../auth/auth-helper'
 import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
+import { values } from "lodash";
 
 const useStyles = makeStyles(theme => ({
     root: theme.mixins.gutters({
@@ -118,6 +119,8 @@ it as a prop. */}
              </ListItem>
           <Divider/>
           <ListItem>
+{/* to show the description text tht ws added to the about field on the User profile Page */}
+            <ListItem> <ListItemText primary={values.user.about} /></ListItem>
             <ListItemText primary={"Joined: " + (
               new Date(user.created)).toDateString()}/>
           </ListItem>

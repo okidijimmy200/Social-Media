@@ -77,14 +77,17 @@ backend. This is also a protected route that will require a valid JWT as the cre
 
 const update = async (params, credentials, user) => {
     try {
-        let response = await fetch('/api/users/'+params.userId, {
+        let response = await fetch('/api/users/'+ params.userId, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + credentials.t
             },
-            body: JSON.stringify(user)
+            body: user
+/**Since the content type of the data that's sent to the server is no longer
+'application/json', we also need to modify the update fetch method in apiuser.
+js to remove Content-Type */
         })
 /**this method will also return a promise
 containing the server's response to the user update request */
