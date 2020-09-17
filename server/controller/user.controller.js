@@ -4,6 +4,9 @@ import errorHandler from '../helpers/dbErrorHandler'
 import formidable from 'formidable'
 import fs from 'fs'
 
+// The default photo is retrieved and sent from the server's file system
+import profileImage from '../../client/assets/images/rofilepic.png'
+
 /**--errorHandler helper to respond to route
 requests with meaningful messages when a Mongoose error occurs */
 /**--lodash module is used when updating an existing user with changed values.  */
@@ -119,5 +122,19 @@ const remove = async(req, res, next) => {
         })
     }
  }
+
+ //search for photo, if found send the response to the request at the photo route otherwise
+//  call next() to return default photo
+const photo = (req, res, next) => {
+    if(req.profile.data) {
+        res.set("Content-Type", req.profile.photo.contentType)
+        return res.send(req.profile.photo.data)
+    }
+    next()
+}
+
+const defaultPhoto = (req, res) => {
+    return res.sendFile(process.cwd()+profileImage)
+}
 
 export default { create, userByID, read, list, remove, update}
