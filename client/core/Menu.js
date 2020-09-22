@@ -42,7 +42,7 @@ when the user is not signed in */}
     {
         !auth.isAuthenticated() && (<span>
             <Link to="/signup">
-                <Button style={isActive(history, "/signup")}>Sign Up</Button>
+                <Button style={isActive(history, "/signup")} suppressHydrationWarning={true} >Sign Up</Button>
             </Link>
             <Link to="/signin">
                 <Button style={isActive(history, "/signin")}>Sign In</Button>
@@ -57,7 +57,7 @@ the menu when the user is signed in, */}
 //own profile
         auth.isAuthenticated() && (<span>
             <Link to={"/user/" + auth.isAuthenticated().user._id}>
-                <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
+                <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)} suppressHydrationWarning={true}>
                     My Profile
                 </Button>
             </Link>

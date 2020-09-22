@@ -39,9 +39,9 @@ add an about field  */
         trim: true
     },
 // In order to store the uploaded profile photo directly in the database
-    photo: {
 /**An image file that's uploaded by the user from the client- side will be converted into
 binary data and stored in this photo field */
+    photo: {
         data:  Buffer,
         contentType: String
     }

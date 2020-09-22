@@ -87,7 +87,7 @@ app.get('*', (req, res) => {
     // 2. Use renderToString to generate markup which renders
     // components specific to the route requested
     if (context.url) {
-        return res.redirect(303, context.ur)
+        return res.redirect(303, context.url)
     }
     const css = sheets.toString()
 // 3. Return template with markup and CSS styles in the response
@@ -96,5 +96,8 @@ app.get('*', (req, res) => {
         css: css
     }))
 })
+
+
+
 
 export default app

@@ -5,7 +5,7 @@ import formidable from 'formidable'
 import fs from 'fs'
 
 // The default photo is retrieved and sent from the server's file system
-import profileImage from '../../client/assets/images/rofilepic.png'
+import profileImage from '../../client/assets/images/profile-pic.png'
 
 /**--errorHandler helper to respond to route
 requests with meaningful messages when a Mongoose error occurs */
@@ -81,7 +81,7 @@ const update = async (req, res) => {
     form.parse(req, async (err, fields, files) => {
         if (err) {
             return res.status(400).json({
-                error: "photo could not be uploaded"
+                error: "Photo could not be uploaded"
             })
         }
         let user = req.profile
@@ -91,7 +91,6 @@ const update = async (req, res) => {
             user.photo = fs.readFileSync(files.photo.path)
             user.photo.contentType = files.photo.type
         }
-    })
     try {
     // This will store the uploaded file as data in the database
         await user.save()
@@ -104,6 +103,7 @@ const update = async (req, res) => {
             error: errorHandler.getErrorMessage(err)
         })
     }
+    })
 }
 
 /**The remove function retrieves the user from req.profile and uses the remove()
@@ -137,4 +137,6 @@ const defaultPhoto = (req, res) => {
     return res.sendFile(process.cwd()+profileImage)
 }
 
-export default { create, userByID, read, list, remove, update}
+export default { create, userByID, read, list, remove, update, photo, defaultPhoto}
+
+

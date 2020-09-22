@@ -16,7 +16,6 @@ import DeleteUser from './DeleteUser'
 import auth from '../auth/auth-helper'
 import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
-import { values } from "lodash";
 
 const useStyles = makeStyles(theme => ({
     root: theme.mixins.gutters({
@@ -60,9 +59,9 @@ view is redirected to the Sign In view if the current user is not authenticated 
             userId: match.params.userId
         }, {t: jwt.token}, signal).then((data) => {
             if (data && data.error) {
-            setRedirectToSignin(true)
+              setRedirectToSignin(true)
             } else {
-            setUser(data)
+              setUser(data)
             }
         })
 /**We also
@@ -77,6 +76,11 @@ component unmounts. */
 example, when the app goes from one profile view to the other. To ensure this effect
 reruns when the userId value updates, we will add [match.params.userId] in
 the second argument to useEffect. */
+
+// use the img element's src attribute to load the photo in the view
+const photoUrl = user._id
+      ? `/api/users/photo/${user._id}?${new Date().getTime()}` //time value is added to ensure img reloads in profile view after update of photo
+      : '/api/users/defaultphoto'
 
 //If the current user is not authenticated, we set up the conditional redirect to the Sign
 //In view.
@@ -94,9 +98,7 @@ the second argument to useEffect. */
         <List dense>
           <ListItem>
             <ListItemAvatar>
-              <Avatar>
-                <Person/>
-              </Avatar>
+              <Avatar src={photoUrl} />
             </ListItemAvatar>
 {/* Edit button and a
 DeleteUser component, which will render conditionally based on whether the
@@ -118,14 +120,15 @@ it as a prop. */}
                 }
              </ListItem>
           <Divider/>
-          <ListItem>
 {/* to show the description text tht ws added to the about field on the User profile Page */}
-            <ListItem> <ListItemText primary={values.user.about} /></ListItem>
-            <ListItemText primary={"Joined: " + (
+            <ListItem> 
+              <ListItemText primary={user.about}  secondary={"Joined: " + (
               new Date(user.created)).toDateString()}/>
           </ListItem>
         </List>
       </Paper>
     )
 }
+
+
 

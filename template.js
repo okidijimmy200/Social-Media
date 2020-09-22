@@ -14,8 +14,6 @@ export default ({markup, css}) => {
                 }
             </style>
             </head>
-            // This will load the server-generated code in the browser before the frontend script is
-            // ready to take over
                 <body style="margin:0">
             <div id="root">${markup}</div>
             <style id="jss-server-side">${css}</style>

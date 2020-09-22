@@ -20,7 +20,7 @@ router.route('/api/users/:userId')
 // route to retrieve image stored in db for each user and also default route for those who dont have
 router.route('/api/users/photo/:userId')
   .get(userCtrl.photo, userCtrl.defaultPhoto)
-router.route('/api/users/defaultPhoto')
+router.route('/api/users/defaultphoto')
   .get(userCtrl.defaultPhoto)
 
 router.param('userId', userCtrl.userByID)

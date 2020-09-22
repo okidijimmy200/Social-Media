@@ -51,8 +51,8 @@ const read = async (params, credentials, signal) => {
 Bearer scheme, and then the response from the server is returned to the component
 in a promise. */
         let response = await fetch('/api/users/' + params.userId, {
-            method: "GET",
-            signal: signal,
+            method: 'GET',
+            // signal: signal,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -81,7 +81,6 @@ const update = async (params, credentials, user) => {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + credentials.t
             },
             body: user
@@ -94,7 +93,7 @@ containing the server's response to the user update request */
         return await response.json()
     }
     catch(err) {
-
+        console.log(err)
     }
 }
 
