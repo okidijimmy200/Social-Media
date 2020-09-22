@@ -23,3 +23,7 @@ the database will be updated in response to the follow or unfollow requests.
 --The addFollowing controller method in the user controller will update the
 following array for the current user by pushing the followed user's reference into
 the array
+
+Lecture 3:
+Accessing the follow and unfollow APIs in views::
+--update the api-user.js file with follow and unfollow methodds

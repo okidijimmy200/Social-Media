@@ -219,6 +219,7 @@ export default {
     defaultPhoto,
     addFollowing,
     addFollower,
-    removeFollowing}
+    removeFollowing,
+    removeFollower}
 
 

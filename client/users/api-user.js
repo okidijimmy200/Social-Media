@@ -123,6 +123,50 @@ as a promise */
     }
 }
 
+
+/////////////////////////////////follow and unfollow features////
+
+/**The follow and unfollow methods will
+be similar, making calls to the respective routes with the current user's ID and
+credentials, and the followed or unfollowed user's ID. */
+
+const follow = async (params, credentials, followId) => {
+  try {
+    let response = await fetch('/api/users/follow/', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify({userId:params.userId, followId: followId })
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+//takes the unfollowed user's ID and calls the unfollow API,
+const unfollow = async (params, credentials, unfollowId) => {
+  try {
+    let response = await fetch('/api/users/unfollow/', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify({userId: params.userId, unfollowId: unfollowId})
+    })
+    return await response.json()
+  }
+  catch(err) {
+    console.log(err)
+  }
+}
 //export the helper methods for the user CRUD-related API endpoints
 export { create, list, read, update, remove }
 
+
+  
