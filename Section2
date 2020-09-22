@@ -14,3 +14,12 @@ update the user model with two arrays of user references,
 
 --These references will point to the users in the collection being followed by or
 following the given user.
+
+Lecture 2:
+Adding APIs to follow and unfollow::
+--When a user follows or unfollows another user from the view, both users' records in
+the database will be updated in response to the follow or unfollow requests.
+
+--The addFollowing controller method in the user controller will update the
+following array for the current user by pushing the followed user's reference into
+the array

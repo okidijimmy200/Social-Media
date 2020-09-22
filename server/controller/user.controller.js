@@ -6,6 +6,7 @@ import fs from 'fs'
 
 // The default photo is retrieved and sent from the server's file system
 import profileImage from '../../client/assets/images/profile-pic.png'
+import { exec } from 'child_process'
 
 /**--errorHandler helper to respond to route
 requests with meaningful messages when a Mongoose error occurs */
@@ -143,6 +144,81 @@ const defaultPhoto = (req, res) => {
     return res.sendFile(process.cwd()+profileImage)
 }
 
-export default { create, userByID, read, list, remove, update, photo, defaultPhoto}
+/**The addFollowing controller method in the user controller will update the
+following array for the current user by pushing the followed user's reference into
+the array */
+
+const addFollowing = async (req, res, next) => {
+    try {
+        await User.findByIdAndUpdate(req.body.userId, {$push: {following: req.body.followId}})
+        //if successful update of following array, move to next to addfollower method
+// is executed to add the current user's reference to the followed user's followers array
+        next()
+    } catch(err) {
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+        })
+    }
+}
+
+/**is executed to add the current user's reference to the
+followed user's followers array */
+
+const addFollower = async (req, res) => {
+    try {
+        let result = await User.findByIdAndUpdate(req.body.followId, {$push: {followers: req.body.userId}}, {new: true})
+                                .populate('following', '_id name')
+                                .populate('followers', '_id name')
+                                exec()
+        result.hashed_password = undefined
+        result.salt = undefined
+        res.json(result)
+    } catch(err) {
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+        })
+    }
+}
+
+//for removefollower and removefollowing update the respiective following and followers arrat by removing the user references with $pull instead of $push
+const removeFollowing = async (req, res, next) => {
+    try {
+        await User.findByIdAndUpdate(req.body.userId, {$pull: {following: req.body.unfollowId}})
+        next()
+    } catch(err) {
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+        })
+    }
+}
+
+const removeFollower = async (req, res) => {
+    try {
+        let result = await User.findByIdAndUpdate(req.body.unfollowId, {$pull: {followers: req.body.userId}},{new: true} )
+                                .populate('following', '_id name')
+                                .populate('followers', '_id name')
+                                .exec()
+        result.hashed_password = undefined
+        result.salt = undefined
+        res.json(result)
+    } catch(err) {
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+        })
+    }
+}
+
+export default { 
+    create, 
+    userByID, 
+    read, 
+    list, 
+    remove, 
+    update, 
+    photo, 
+    defaultPhoto,
+    addFollowing,
+    addFollower,
+    removeFollowing}
 
 
