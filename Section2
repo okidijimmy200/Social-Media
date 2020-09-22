@@ -1,0 +1,16 @@
+Lecture 1:
+Following users in MERN Social::
+--In MERN Social, users will be able to follow each other. Each user will have a list of
+followers and a list of people they follow and also see a list of users they can follow
+
+Following and unfollowing:
+--In order to keep track of which user is following which other users, we will have to
+maintain two lists for each user. When one user follows or unfollows another user, we
+will update one's following list and the other's followers list.
+
+Updating the user model:
+To store the list of following and followers in the database, we will need to
+update the user model with two arrays of user references,
+
+--These references will point to the users in the collection being followed by or
+following the given user.

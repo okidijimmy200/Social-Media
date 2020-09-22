@@ -119,3 +119,10 @@ the img element's src attribute to load the photo in the view
 --or example, in the
 Profile component, we use the user ID from the values in the state to construct the
 photo URL,
+
+
+
+Updating the userByID controller method::
+--When a single user is retrieved from the backend, we want the user object to include
+the names and IDs of the users referenced in the following and followers arrays.
+--we update the userByID controler to retrieve these details so tht it populates the returned userobject

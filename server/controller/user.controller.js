@@ -49,7 +49,13 @@ const list = async(req, res) => {
 
 const userByID = async (req, res, next, id) => {
     try {
-        let user = await User.findById(id)
+        /**we update the userByID controler to retrieve these details so tht it populates the returned user object */
+/**We use the Mongoose populate method to specify that the user object that's
+returned from the query should contain the name and ID of the users referenced in
+the following and followers lists. */
+        let user = await User.findById(id).populate('following', '_id name')
+        .populate('followers', '_id name')
+        .exec()
         if(!user)
             return res.status('400').json({
                 error: "User not found"

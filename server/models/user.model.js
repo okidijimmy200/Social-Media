@@ -44,8 +44,12 @@ binary data and stored in this photo field */
     photo: {
         data:  Buffer,
         contentType: String
-    }
-  
+    },
+
+  /**To store the list of following and followers in the database, we will need to
+update the user model with two arrays of user references, */
+    following: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+    followers: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
     
     /**NB:The actual password string is not stored directly in the database for security purposes
 and is handled separately */
