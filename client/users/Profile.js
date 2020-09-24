@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Edit from '@material-ui/icons/Edit'
 import Person from '@material-ui/icons/Person'
+import FollowGrid from './FollowGrid'
 import Divider from '@material-ui/core/Divider'
 import DeleteUser from './DeleteUser'
 import auth from '../auth/auth-helper'
@@ -66,6 +67,10 @@ view is redirected to the Sign In view if the current user is not authenticated 
             if (data && data.error) {
               setValues({...values, redirectToSignin: true})
             } else {
+/**In the Profile component, after the user data is successfully fetched in useEffect,
+we will check whether the signed-in user is already following the user in the profile
+or not and set the following value to the respective state, as shown in the following
+code */
               let following = checkFollow(data)
               setValues({...values, user:data, following: following})
             }
@@ -83,12 +88,22 @@ example, when the app goes from one profile view to the other. To ensure this ef
 reruns when the userId value updates, we will add [match.params.userId] in
 the second argument to useEffect. */
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////check follow method///////////////////////////////////////////////////////////
+/**To determine the value to set in following, the checkFollow method will check if
+the signed-in user exists in the fetched user's followers list, then return match if
+found; otherwise, it will return undefined if a match is not found. */
+
 const checkFollow = (user) => {
   const match = user.followers.some((followers) => {
     return followers._id == jwt.user._id
   })
   return match
 }
+
+/**The Profile component will also define the click handler for
+FollowProfileButton so that the state of the Profile can be updated when the
+follow or unfollow action completes */
 
 const clickFollowButton = (callApi) => {
   callApi({
@@ -126,6 +141,8 @@ const photoUrl = values.user._id
           <ListItem>
             <ListItemAvatar>
               <Avatar src={photoUrl} />
+    <ListItemText>{
+      }</ListItemText>
             </ListItemAvatar>
 {/* Edit button and a
 DeleteUser component, which will render conditionally based on whether the
@@ -146,7 +163,7 @@ it as a prop. */}
                             <DeleteUser userId={values.user._id} />
                         </ListItemSecondaryAction>)
           :(<FollowProfileButton following={values.following} onButtonClick={clickFollowButton}/>)
-                }
+                } 
              </ListItem>
           <Divider/>
 {/* to show the description text tht ws added to the about field on the User profile Page */}

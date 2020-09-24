@@ -47,5 +47,20 @@ or unfollow fetch API to be called as a parameter
 Updating the Profile component::
 --In the Profile view, FollowProfileButton should only be shown when the user
 views the profile of other users,
+--In the Profile component, after the user data is successfully fetched in useEffect,
+we will check whether the signed-in user is already following the user in the profile
+or not and set the following value to the respective state, as shown in the following
+code
 
-pg168
+Lecture 5:
+Listing followings and followers::
+---In order to give users easy access to the users they are following and the users who
+are following them on MERN Social, we will add these lists to their profile views.
+---The details of the users referenced in the following and followers lists are already
+in the user object that is fetched using the read API when the profile is loaded.
+
+--we will create FolloeGrid
+
+--Making a FollowGrid component
+--The FollowGrid component will take a list of users as props, display the avatars of
+the users with their names, and link them to each user's own profile.
