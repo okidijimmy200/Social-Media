@@ -1,0 +1,25 @@
+Lecture 1:
+Posting on Mern Social
+--The post feature in MERN Social will allow users to share content on the MERN
+Social application platform and also interact with each other over the content by
+commenting on or liking a post,
+
+--we will implement a complete full-stack slice containing the post
+backend and frontend
+
+--The post backend will be comprised of a new Mongoose
+model for structuring the post data to be stored in the database, while the post CRUD
+API endpoints will allow the frontend to interact with the Post collection in the
+database.
+
+--The post frontend will consist of post-related React components that will
+allow users to view posts, add new posts, interact with posts, and delete their own
+posts.
+
+Lecture 2:
+Mongoose schema model for Post::
+---To define the structure for storing details about each post and to store each post as a
+document in a collection in MongoDB, we will define the Mongoose schema for a post
+in server/models/post.model.js. The Post schema will store a post's text content,
+a photo, a reference to the user who posted, time of creation, likes on the post from
+users, and comments on the post by users.
