@@ -16,6 +16,7 @@ import DeleteUser from './DeleteUser'
 import auth from '../auth/auth-helper'
 import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
+import FollowProfileButton from '../users/FollowProfileButton'
 
 const useStyles = makeStyles(theme => ({
     root: theme.mixins.gutters({
@@ -38,8 +39,12 @@ otherwise, the user should be redirected to the Sign In view. */
 
 export default function Profile({ match }) {
     const classes = useStyles()
-    const [user, setUser] = useState({})
-    const [redirectToSignin, setRedirectToSignin] = useState(false)
+    const [values, setValues] = useState({
+      user: {following:[], followers:[]},
+      redirectToSignin: false,
+      following: false
+    })
+    // const [, setRedirectToSignin] = useState(false)
     const jwt = auth.isAuthenticated()
 
 /**We also need to get access to the match props passed by the Route component,
@@ -59,9 +64,10 @@ view is redirected to the Sign In view if the current user is not authenticated 
             userId: match.params.userId
         }, {t: jwt.token}, signal).then((data) => {
             if (data && data.error) {
-              setRedirectToSignin(true)
+              setValues({...values, redirectToSignin: true})
             } else {
-              setUser(data)
+              let following = checkFollow(data)
+              setValues({...values, user:data, following: following})
             }
         })
 /**We also
@@ -77,15 +83,36 @@ example, when the app goes from one profile view to the other. To ensure this ef
 reruns when the userId value updates, we will add [match.params.userId] in
 the second argument to useEffect. */
 
+const checkFollow = (user) => {
+  const match = user.followers.some((followers) => {
+    return followers._id == jwt.user._id
+  })
+  return match
+}
+
+const clickFollowButton = (callApi) => {
+  callApi({
+    userId: jwt.user._id
+  }, {
+    t: jwt.token
+  }, values.user._id).then((data) => {
+    if (data.error) {
+      setValues({...values, error: data.error})
+    }else {
+      setValues({...values, user:data, following: !values.following})
+    }
+  })
+}
+
 // use the img element's src attribute to load the photo in the view
-const photoUrl = user._id
-      ? `/api/users/photo/${user._id}?${new Date().getTime()}` //time value is added to ensure img reloads in profile view after update of photo
+const photoUrl = values.user._id
+      ? `/api/users/photo/${values.user._id}?${new Date().getTime()}` //time value is added to ensure img reloads in profile view after update of photo
       : '/api/users/defaultphoto'
 
 //If the current user is not authenticated, we set up the conditional redirect to the Sign
 //In view.
 
-    if(redirectToSignin) {
+    if(values.redirectToSignin) {
         return <Redirect to='/signin'/>
     }
 //return the profile view if the  user currently signed in is viewing another user's profile
@@ -103,10 +130,12 @@ const photoUrl = user._id
 {/* Edit button and a
 DeleteUser component, which will render conditionally based on whether the
 current user is viewing their own profile. */}
-                <ListItemText primary={user.name} secondary={user.email}/> {
-             auth.isAuthenticated().user && auth.isAuthenticated().user._id == user._id &&
-              (<ListItemSecondaryAction>
-                <Link to={"/user/edit/" + user._id}>
+                <ListItemText primary={values.user.name} secondary={values.user.email}/> {
+/**In the Profile view, FollowProfileButton should only be shown when the user
+views the profile of other users, */
+             auth.isAuthenticated().user && auth.isAuthenticated().user._id == values.user._id 
+             ? (<ListItemSecondaryAction>
+                <Link to={"/user/edit/" + values.user._id}>
                   <IconButton aria-label="Edit" color="primary">
         {/* The Edit button will route to the EditProfile component */}
                     <Edit/>
@@ -114,16 +143,16 @@ current user is viewing their own profile. */}
                 </Link>
         {/* custom DeleteUser component will handle the delete operation with the userId passed to
 it as a prop. */}
-                            <DeleteUser userId={user._id} />
+                            <DeleteUser userId={values.user._id} />
                         </ListItemSecondaryAction>)
-
+          :(<FollowProfileButton following={values.following} onButtonClick={clickFollowButton}/>)
                 }
              </ListItem>
           <Divider/>
 {/* to show the description text tht ws added to the about field on the User profile Page */}
             <ListItem> 
-              <ListItemText primary={user.about}  secondary={"Joined: " + (
-              new Date(user.created)).toDateString()}/>
+              <ListItemText primary={values.user.about}  secondary={"Joined: " + (
+              new Date(values.user.created)).toDateString()}/>
           </ListItem>
         </List>
       </Paper>

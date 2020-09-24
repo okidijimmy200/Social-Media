@@ -27,3 +27,25 @@ the array
 Lecture 3:
 Accessing the follow and unfollow APIs in views::
 --update the api-user.js file with follow and unfollow methodds
+
+Lecture 4:
+Follow and unfollow buttons::
+---The button that will allow a user to follow or unfollow another user will appear
+conditionally, depending on whether the user is already followed or not by the
+current user,
+
+The FollowProfileButton component::
+---We will create a separate component for the follow button called
+FollowProfileButton, wch will show the folow and unfollow btn depending on whether the current user is already
+a followe of the user in the profile
+
+--When FollowProfileButton is added to the profile, the following value will be
+determined and sent from the Profile component as a prop to
+FollowProfileButton, along with the click handler that takes the specific follow
+or unfollow fetch API to be called as a parameter
+
+Updating the Profile component::
+--In the Profile view, FollowProfileButton should only be shown when the user
+views the profile of other users,
+
+pg168

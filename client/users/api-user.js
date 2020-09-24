@@ -166,7 +166,7 @@ const unfollow = async (params, credentials, unfollowId) => {
   }
 }
 //export the helper methods for the user CRUD-related API endpoints
-export { create, list, read, update, remove }
+export { create, list, read, update, remove, unfollow, follow  }
 
 
   
