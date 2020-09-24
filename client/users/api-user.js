@@ -165,8 +165,40 @@ const unfollow = async (params, credentials, unfollowId) => {
     console.log(err)
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+////////////////findpeople////////////////////////////////////////////////////////
+
+/**To use this list of users in the frontend, */
+const findPeople = async (params, credentials, signal) => {
+    try {
+        let response = await fetch('/api/users/findpeople/' + params.userId, {
+            method: 'GET',
+            signal: signal,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + credentials.t
+            }
+        })
+        return await response.json()
+    }catch(err) {
+        console.log(err)
+    }
+}
+
 //export the helper methods for the user CRUD-related API endpoints
-export { create, list, read, update, remove, unfollow, follow  }
+export { 
+    create, 
+    list, 
+    read, 
+    update, 
+    remove, 
+    unfollow, 
+    follow,
+    findPeople
+
+}
 
 
   

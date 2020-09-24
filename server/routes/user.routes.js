@@ -30,5 +30,11 @@ router.route('/api/users/unfollow')
   .put(authCtrl.requireSignin, userCtrl.removeFollowing, userCtrl.removeFollower)
 router.param('userId', userCtrl.userByID)
 
+
+//new API on the server to query the database and fetch the list of
+//users the current user is not following
+router.route('/api/users/findpeople/:userId')
+  .get(authCtrl.requireSignin, userCtrl.findPeople)
+
 export default router
 
