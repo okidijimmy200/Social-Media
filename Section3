@@ -23,3 +23,13 @@ document in a collection in MongoDB, we will define the Mongoose schema for a po
 in server/models/post.model.js. The Post schema will store a post's text content,
 a photo, a reference to the user who posted, time of creation, likes on the post from
 users, and comments on the post by users.
+
+Lecture 3:
+The Newsfeed component::
+--each user will see posts that have been shared by people they
+follow, along with posts that they themselves share, all aggregated in a Newsfeed
+view.
+---we will look at the composition of this Newsfeed view to showcase a
+basic example of how to design nested UI components that share state. The Newsfeed
+component will contain two main child components – a new post form and a list of
+posts from followed users
