@@ -8,6 +8,7 @@ import helmet from 'helmet'
 import Template from '../template'
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
+import postRoutes from './routes/post.routes'
 
 // modules for server side rendering
 import React from 'react'
@@ -53,6 +54,7 @@ app.use(cors()) //Middleware to enable cross-origin resource sharing (CORS)
 //routes
 app.use('/', userRoutes)
 app.use('/', authRoutes) //This will make the routes we define in auth.routes.js accessible from the clientside.
+app.use('/', postRoutes)
 
 app.use((err, req, res, next) => {
     // express-jwt throws an error named UnauthorizedError when a token cannot be validated for some reason

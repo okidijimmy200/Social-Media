@@ -33,3 +33,25 @@ view.
 basic example of how to design nested UI components that share state. The Newsfeed
 component will contain two main child components – a new post form and a list of
 posts from followed users
+
+Lecture 4:
+Listing posts::
+--In MERN Social, we list posts in the Newsfeed and in the profile of each user. We will
+create a generic PostList component that will render any list of posts provided to it,
+which we can use in both the Newsfeed and the Profile components.
+in the postList.js file
+
+Listing posts in Newsfeed
+--We will set up an API on the server that queries the Post collection and returns a list
+of posts from the people a specified user is following.
+
+Newsfeed API for posts::
+--we need to add the route endpoint that will
+receive the request for Newsfeed posts and respond accordingly to the requesting
+client- side.
+
+--On the backend, we need to define the route path that will receive the request for
+retrieving Newsfeed posts for a specific user,
+--In the query to the Post collection, we find all the posts that have postedBy user
+references that match the current user's followings and the current user. The posts
+that are returned will be sorted by the created timestamp,
