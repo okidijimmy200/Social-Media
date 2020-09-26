@@ -55,3 +55,8 @@ retrieving Newsfeed posts for a specific user,
 --In the query to the Post collection, we find all the posts that have postedBy user
 references that match the current user's followings and the current user. The posts
 that are returned will be sorted by the created timestamp,
+
+Lecture 5:
+Fetching Newsfeed posts in the view
+--Newsfeed API in the frontend to fetch the related posts and display
+these posts in the Newsfeed view.

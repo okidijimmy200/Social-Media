@@ -48,6 +48,6 @@ const useStyles = makeStyles(theme => ({
       </div>
       )
   }
-  FollowGrid.PropTypes = {
+  FollowGrid.propTypes = {
       people: PropTypes.array.isRequired
   }

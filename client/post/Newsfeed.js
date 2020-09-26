@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import auth from './../auth/auth-helper'
+import {listNewsFeed} from './api-post'
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,7 +33,9 @@ from the PostList component. */
       const [posts, setPosts] = useState([])
       const jwt = auth.isAuthenticated()
 
-
+/**listNewsFeed the fetch method that will load the posts that are rendered in PostList, which
+is added as a child component to the Newsfeed component. So, this fetch needs to be
+called in the useEffect hook in the Newsfeed component */
       useEffect(() => {
           const abortController = new AbortController()
           const signal = abortController.signal
@@ -80,11 +83,11 @@ the changed list of posts to the viewer */
                  Newsfeed
             </Typography>
             <Divider/>
-            <NewPost addUpdate={addPost}/>
+            {/* <NewPost addUpdate={addPost}/> */}
             <Divider/>
 {/* Then we set
 this list of posts to the state to be rendered in the PostList component.. */}
-            <PostList removeUpdate={removePost} posts={posts}/>
+            {/* <PostList removeUpdate={removePost} posts={posts}/> */}
       </Card>
       )
   }

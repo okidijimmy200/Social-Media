@@ -11,12 +11,12 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Edit from '@material-ui/icons/Edit'
 import Person from '@material-ui/icons/Person'
-import FollowGrid from './FollowGrid'
 import Divider from '@material-ui/core/Divider'
 import DeleteUser from './DeleteUser'
 import auth from '../auth/auth-helper'
 import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
+import ProfileTabs from '../users/ProfileTabs'
 import FollowProfileButton from '../users/FollowProfileButton'
 
 const useStyles = makeStyles(theme => ({
@@ -172,6 +172,8 @@ it as a prop. */}
               new Date(values.user.created)).toDateString()}/>
           </ListItem>
         </List>
+        {/* <ProfileTabs user={values.user} post={posts} removePostUpdate={removePost} /> */}
+        <ProfileTabs user={values.user}  />
       </Paper>
     )
 }
