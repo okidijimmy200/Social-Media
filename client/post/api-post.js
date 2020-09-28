@@ -15,6 +15,7 @@ const create = async (params, credentials, post) => {
     }
 }
 
+
 const listByUser = async (params, credentials) => {
     try {
         let response = await fetch('/api/posts/by/'+ params.userId, {
@@ -91,7 +92,7 @@ const unlike = async (params, credentials, postId) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'B'
+                'Authorization': 'Bearer ' + credentials.t
             },
             body: JSON.stringify({userId: params.userId, postId: postId})
         })
@@ -127,7 +128,7 @@ const uncomment = async (params, credentials, postId, comment) => {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + credentials.t
             }, 
-            body: JSON.stringify({userId:params.userId, postId:postId})
+            body: JSON.stringify({userId:params.userId, postId:postId,comment:comment})
         })
         return await response.json()
     } catch(err) {

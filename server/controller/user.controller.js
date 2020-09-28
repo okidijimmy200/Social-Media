@@ -6,7 +6,7 @@ import fs from 'fs'
 
 // The default photo is retrieved and sent from the server's file system
 import profileImage from '../../client/assets/images/profile-pic.png'
-import { exec } from 'child_process'
+// import { exec } from 'child_process'
 
 /**--errorHandler helper to respond to route
 requests with meaningful messages when a Mongoose error occurs */
@@ -115,7 +115,7 @@ const update = async (req, res) => {
 
 /**The remove function retrieves the user from req.profile and uses the remove()
 query to delete the user from the database */
-const remove = async(req, res, next) => {
+const remove = async(req, res) => {
     try {
         let user = req.profile
         let deletedUser = await user.remove()

@@ -12,7 +12,7 @@ const create = async (user) => {
             },
             body: JSON.stringify(user)
         })
-        return await response.json //return the response from the server as a promise.
+        return await response.json() //return the response from the server as a promise.
     } catch(err) {
         console.log(err)
     }
@@ -106,7 +106,7 @@ will require a valid JWT as a credential */
 
 const remove = async (params, credentials) => {
     try {
-        let response = await fetch('/api/users'+ params.userId, {
+        let response = await fetch('/api/users/'+ params.userId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

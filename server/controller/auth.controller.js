@@ -61,12 +61,12 @@ deleted before the corresponding CRUD controller function is allowed to proceed.
 const hasAuthorization = (req, res, next) => {
     /**req.auth object is populated by express-jwt in requireSignin after
 authentication verification, */
-    const authorised = req.profile && req.auth
+    const authorized = req.profile && req.auth
         && req.profile._id == req.auth._id
         /**req.profile is populated by the userByID
 function in user.controller.js. */
 
-    if (!authorised) {
+    if (!authorized) {
         return res.status('403').json({
             error: "User is not authorized"
         })

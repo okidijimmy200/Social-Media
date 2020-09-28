@@ -21,7 +21,7 @@ const create = (req, res, next) => {
             post.photo.contentType = files.photo.type
         }
         try {
-            let results = await post.save()
+            let result = await post.save()
             res.json(result)
         } catch(err) {
             return res.status(400).json({
@@ -46,7 +46,9 @@ const postByID = async (req, res,next, id) => {
     }
 }
 
-
+/**The listByUser controller method in post.controller.js will query the Post
+collection to find posts that have a matching reference in the postedBy field to the
+user specified in the userId param in the route. */
 const listByUser = async(req, res) => {
     try{
         let posts = await Post.find({postedBy: req.profile._id})
@@ -113,7 +115,7 @@ const like = async(req, res) => {
     }
 }
 
-const unlike = async (re, res) => {
+const unlike = async (req, res) => {
     try {
         let result = await Post.findByIdAndUpdate(req.body.postId, {$pull: {likes: req.body.userId}}, {new: true})
         res.json(result)

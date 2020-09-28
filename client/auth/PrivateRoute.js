@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {Route, Redirect } from 'react-router-dom'
 import auth from './auth-helper'
-import { rest } from 'lodash'
 
 //--this will load only when the user is authenticated
 const PrivateRoute = ({ component: Component, ...rest }) => (

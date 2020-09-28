@@ -11,6 +11,9 @@ router.route('/api/posts/new/:userId')
 router.route('/api/posts/photo/:postId')
     .get(postCtrl.photo)
 
+    /**To retrieve posts that have been shared by a specific user, we need to add a route
+endpoint that will receive the request for these posts and respond accordingly to the
+requesting client- side. */
 router.route('/api/posts/by/:userId')
     .get(authCtrl.requireSignin, postCtrl.listByUser)
 

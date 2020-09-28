@@ -59,12 +59,12 @@ export default function EditProfile({ match }) {
     const classes = useStyles()
     const [values, setValues] = useState({
       name: '',
-      password: '',
+      about: '',
+      photo: '',
       email: '',
-      open: false,
+      password: '',
       error: '',
       redirectToProfile: false,
-      error: '',
       id: ''
     })
     const jwt = auth.isAuthenticated()

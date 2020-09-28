@@ -60,3 +60,18 @@ Lecture 5:
 Fetching Newsfeed posts in the view
 --Newsfeed API in the frontend to fetch the related posts and display
 these posts in the Newsfeed view.
+
+Lecture 6:
+Listing posts by user in Profile
+---The implementation of getting a list of posts created by a specific user and showing it
+in Profile will be similar to what we discussed in the previous section regarding
+listing posts in the Newsfeed.
+
+API for posts by a user::
+---To retrieve posts that have been shared by a specific user, we need to add a route
+endpoint that will receive the request for these posts and respond accordingly to the
+requesting client- side.
+
+Fetching user posts in the view::
+--We will use the list-posts-by-user API in the frontend to fetch the related posts and
+display these posts in the profile view.

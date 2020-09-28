@@ -101,7 +101,7 @@ received in the props or to the Home component at the root. */
 
     const { redirectToReferrer } = values
     if (redirectToReferrer) {
-        return (<Redirect to={from} />)
+        return (<Redirect to={from}/>)
     }
 
     return (

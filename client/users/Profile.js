@@ -10,27 +10,33 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Edit from '@material-ui/icons/Edit'
-import Person from '@material-ui/icons/Person'
 import Divider from '@material-ui/core/Divider'
 import DeleteUser from './DeleteUser'
-import auth from '../auth/auth-helper'
-import {read} from './api-user.js'
+import auth from './../auth/auth-helper'
+import {read} from './api-user'
 import {Redirect, Link} from 'react-router-dom'
 import ProfileTabs from '../users/ProfileTabs'
 import FollowProfileButton from '../users/FollowProfileButton'
+import {listByUser} from './../post/api-post'
 
 const useStyles = makeStyles(theme => ({
-    root: theme.mixins.gutters({
-      maxWidth: 600,
-      margin: 'auto',
-      padding: theme.spacing(3),
-      marginTop: theme.spacing(5)
-    }),
-    title: {
-      marginTop: theme.spacing(3),
-      color: theme.palette.protectedTitle
-    }
-  }))
+  root: theme.mixins.gutters({
+    maxWidth: 600,
+    margin: 'auto',
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(5)
+  }),
+  title: {
+    margin: `${theme.spacing(2)}px ${theme.spacing(1)}px 0`,
+    color: theme.palette.protectedTitle,
+    fontSize: '1em'
+  },
+  bigAvatar: {
+    width: 60,
+    height: 60,
+    margin: 10
+  }
+}))
 
 /**This profile information can be fetched from the server if the user is signed in. To
 verify this, the component has to provide the JWT credential to the read fetch call;
@@ -45,7 +51,7 @@ export default function Profile({ match }) {
       redirectToSignin: false,
       following: false
     })
-    // const [, setRedirectToSignin] = useState(false)
+    const [posts, setPosts] = useState([])
     const jwt = auth.isAuthenticated()
 
 /**We also need to get access to the match props passed by the Route component,
@@ -73,6 +79,7 @@ or not and set the following value to the respective state, as shown in the foll
 code */
               let following = checkFollow(data)
               setValues({...values, user:data, following: following})
+              loadPosts(data._id)
             }
         })
 /**We also
@@ -95,8 +102,8 @@ the signed-in user exists in the fetched user's followers list, then return matc
 found; otherwise, it will return undefined if a match is not found. */
 
 const checkFollow = (user) => {
-  const match = user.followers.some((followers) => {
-    return followers._id == jwt.user._id
+  const match = user.followers.some((follower) => {
+    return follower._id == jwt.user._id
   })
   return match
 }
@@ -117,6 +124,28 @@ const clickFollowButton = (callApi) => {
       setValues({...values, user:data, following: !values.following})
     }
   })
+}
+/**This fetch method will load the required posts for PostList, which is added to the
+Profile view. */
+const loadPosts = (user) => {
+  listByUser({
+    userId: user
+  }, {
+    t: jwt.token
+  }).then((data) => {
+    if (data.error) {
+      console.log(data.error)
+    }else {
+      setPosts(data)
+    }
+  })
+}
+
+const removePost = (post) => {
+    const updatedPosts = posts
+    const index = updatedPosts.indexOf(post)
+    updatedPosts.splice(index, 1)
+    setPosts(updatedPosts)
 }
 
 // use the img element's src attribute to load the photo in the view
@@ -172,8 +201,7 @@ it as a prop. */}
               new Date(values.user.created)).toDateString()}/>
           </ListItem>
         </List>
-        {/* <ProfileTabs user={values.user} post={posts} removePostUpdate={removePost} /> */}
-        <ProfileTabs user={values.user}  />
+        <ProfileTabs user={values.user} post={posts} removePostUpdate={removePost} />
       </Paper>
     )
 }

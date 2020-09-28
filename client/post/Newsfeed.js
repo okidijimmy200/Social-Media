@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import auth from './../auth/auth-helper'
 import {listNewsFeed} from './api-post'
+import NewPost from './NewPost'
+import PostList from './PostList'
 
 
 const useStyles = makeStyles(theme => ({
@@ -83,11 +85,11 @@ the changed list of posts to the viewer */
                  Newsfeed
             </Typography>
             <Divider/>
-            {/* <NewPost addUpdate={addPost}/> */}
+            <NewPost addUpdate={addPost}/>
             <Divider/>
 {/* Then we set
 this list of posts to the state to be rendered in the PostList component.. */}
-            {/* <PostList removeUpdate={removePost} posts={posts}/> */}
+            <PostList removeUpdate={removePost} posts={posts}/>
       </Card>
       )
   }

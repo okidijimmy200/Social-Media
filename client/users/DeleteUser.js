@@ -10,7 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import auth from './../auth/auth-helper'
 import {remove} from './api-user.js'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 
 
 // when btn in the profile is clicked, it opens a dialog component asking user to confrim the delete action
@@ -27,23 +27,20 @@ component. */
     const [open, setOpen] = useState(false)
     const [redirect, setRedirect] = useState(false)
 
+    const jwt = auth.isAuthenticated()
 /**Next, we need some handler methods to open and close the dialog button. The
 dialog is opened when the user clicks the delete button. */
 
     const clickButton = () => {
         setOpen(true)
     }
-
-    // --when user clicks the cancel btn, dialog closes
-    const handleRequestClose = () => {
-        setOpen(false)
-    }
+    
 /**The component will have access to the userId that's passed in as a prop from the
 Profile component, which is needed to call the remove fetch method, along with
 the JWT credentials, after the user confirms the delete action in the dialog. */
 
     const deleteAccount = () => {
-        const jwt = auth.isAuthenticated()
+        
 /**On confirmation, the deleteAccount function calls the remove fetch method with
 the userId from props and JWT from isAuthenticated. */
             remove({
@@ -58,6 +55,10 @@ user will be signed out and redirected to the Home view. */
                     setRedirect(true)
                 }
             })
+    }
+     // --when user clicks the cancel btn, dialog closes
+     const handleRequestClose = () => {
+        setOpen(false)
     }
     // we use the redirect component to redirect the current user to Home page
     if (redirect){
