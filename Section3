@@ -75,3 +75,8 @@ requesting client- side.
 Fetching user posts in the view::
 --We will use the list-posts-by-user API in the frontend to fetch the related posts and
 display these posts in the profile view.
+
+--In the Profile component, the loadPosts method will be called with the user ID of
+the user whose profile is being loaded, after the user details have been fetched from
+the server in the useEffect() hook function
+

@@ -1,4 +1,3 @@
-//not real code
 import React, {useState, useEffect} from 'react'
 import auth from './../auth/auth-helper'
 import Card from '@material-ui/core/Card'

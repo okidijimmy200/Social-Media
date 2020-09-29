@@ -129,6 +129,9 @@ const clickFollowButton = (callApi) => {
 Profile view. */
 const loadPosts = (user) => {
   listByUser({
+  /**In the Profile component, the loadPosts method will be called with the user ID of
+the user whose profile is being loaded, after the user details have been fetched from
+the server in the useEffect() hook function */
     userId: user
   }, {
     t: jwt.token
@@ -141,6 +144,9 @@ const loadPosts = (user) => {
   })
 }
 
+/**The Profile component also provides a
+removePost function, similar to the Newsfeed component, as a prop to the
+PostList component so that the list of posts can be updated if a post is removed. */
 const removePost = (post) => {
     const updatedPosts = posts
     const index = updatedPosts.indexOf(post)
