@@ -5,9 +5,13 @@ import postCtrl from '../controller/post.controller'
 
 const router = express.Router()
 
+/**API to create the post in the database */
+
+// api route for creating new post
 router.route('/api/posts/new/:userId')
     .post(authCtrl.requireSignin, postCtrl.create)
 
+    /**To retrieve the uploaded photo by the user making the post */
 router.route('/api/posts/photo/:postId')
     .get(postCtrl.photo)
 
@@ -41,6 +45,11 @@ router.route('/api/posts/:postId')
 /**append :userID paramenter to the request object that is
 accessed in the listNewsFeed post controller method. */
 router.param('userId', userCtrl.userByID)
+
+
+/**Since the photo route uses the :postID parameter, we will set up a postByID
+controller method to fetch a specific post by its ID before returning it to the photo
+request, add the param call to post.routes.js, */
 router.param('postId', postCtrl.postByID)
 
 export default router

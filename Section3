@@ -80,3 +80,38 @@ display these posts in the profile view.
 the user whose profile is being loaded, after the user details have been fetched from
 the server in the useEffect() hook function
 
+Lecture 7:
+Creating a new post
+--The create new post feature will allow a signed-in user to post a message and
+optionally add an image to the post by uploading it from their local files. To
+implement this feature,
+--we will add a create post API
+endpoint to the backend that allows uploading an image file, as well as add a
+NewPost component to the frontend that will utilize this endpoint to let users create
+new posts.
+
+Creating the post API::
+--The create method in post.controller.js will use the formidable module to
+access the fields and the image file,
+
+
+Retrieving a post's photo::
+---postByID will be similar to the userByID method, and it will attach the post
+retrieved from the database to the request object so that it can be accessed by the next
+method.
+
+Fetching the create post API in the view::
+--This method, like the user edit fetch method, will send a multipart form submission
+using a FormData object that will contain the text field and the image file.
+
+Making the NewPost component::
+--The NewPost component that we added in the Newsfeed component will allow users
+to compose a new post containing a text message and, optionally, an image
+--in the NewPOst.js file
+
+--The NewPost component is added as a child component in the Newsfeed and
+given the addUpdate method as a prop
+
+--On successful post
+creation, the form view is emptied and addUpdate is executed so that the post list in
+the Newsfeed is updated with the new post.

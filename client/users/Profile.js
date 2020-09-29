@@ -13,11 +13,11 @@ import Edit from '@material-ui/icons/Edit'
 import Divider from '@material-ui/core/Divider'
 import DeleteUser from './DeleteUser'
 import auth from './../auth/auth-helper'
-import {read} from './api-user'
+import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
 import ProfileTabs from '../users/ProfileTabs'
 import FollowProfileButton from '../users/FollowProfileButton'
-import {listByUser} from './../post/api-post'
+import {listByUser} from './../post/api-post.js'
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -102,7 +102,7 @@ the signed-in user exists in the fetched user's followers list, then return matc
 found; otherwise, it will return undefined if a match is not found. */
 
 const checkFollow = (user) => {
-  const match = user.followers.some((follower) => {
+  const match = user.followers.some((follower)=> {
     return follower._id == jwt.user._id
   })
   return match
@@ -175,39 +175,38 @@ const photoUrl = values.user._id
         <List dense>
           <ListItem>
             <ListItemAvatar>
-              <Avatar src={photoUrl} />
-    <ListItemText>{
-      }</ListItemText>
+              <Avatar src={photoUrl} className={classes.bigAvatar}/>
             </ListItemAvatar>
+            
 {/* Edit button and a
 DeleteUser component, which will render conditionally based on whether the
 current user is viewing their own profile. */}
-                <ListItemText primary={values.user.name} secondary={values.user.email}/> {
+                 <ListItemText primary={values.user.name} secondary={values.user.email}/> {
 /**In the Profile view, FollowProfileButton should only be shown when the user
 views the profile of other users, */
-             auth.isAuthenticated().user && auth.isAuthenticated().user._id == values.user._id 
-             ? (<ListItemSecondaryAction>
-                <Link to={"/user/edit/" + values.user._id}>
-                  <IconButton aria-label="Edit" color="primary">
+                auth.isAuthenticated().user && auth.isAuthenticated().user._id == values.user._id
+                ? (<ListItemSecondaryAction>
+                    <Link to={"/user/edit/" + values.user._id}>
+                      <IconButton aria-label="Edit" color="primary">
         {/* The Edit button will route to the EditProfile component */}
-                    <Edit/>
-                  </IconButton>
-                </Link>
+                        <Edit/>
+                    </IconButton>
+                  </Link>
         {/* custom DeleteUser component will handle the delete operation with the userId passed to
 it as a prop. */}
-                            <DeleteUser userId={values.user._id} />
-                        </ListItemSecondaryAction>)
-          :(<FollowProfileButton following={values.following} onButtonClick={clickFollowButton}/>)
-                } 
-             </ListItem>
+                           <DeleteUser userId={values.user._id}/>
+                </ListItemSecondaryAction>)
+            : (<FollowProfileButton following={values.following} onButtonClick={clickFollowButton}/>)
+            }
+          </ListItem>
           <Divider/>
 {/* to show the description text tht ws added to the about field on the User profile Page */}
-            <ListItem> 
-              <ListItemText primary={values.user.about}  secondary={"Joined: " + (
+          <ListItem>
+            <ListItemText primary={values.user.about} secondary={"Joined: " + (
               new Date(values.user.created)).toDateString()}/>
           </ListItem>
         </List>
-        <ProfileTabs user={values.user} post={posts} removePostUpdate={removePost} />
+        <ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost}/>
       </Paper>
     )
 }

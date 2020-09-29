@@ -56,6 +56,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+/**The NewPost component is added as a child component in the Newsfeed and
+given the addUpdate method as a prop */
 export default function NewPost (props){
   const classes = useStyles()
   const [values, setValues] = useState({
@@ -68,6 +70,7 @@ export default function NewPost (props){
   useEffect(() => {
     setValues({...values, user: auth.isAuthenticated().user})
   }, [])
+  /**The NewPost component will be a standard form with fileUpload btn, textfield as implemented in the EditProfile */
   const clickPost = () => {
     let postData = new FormData()
     postData.append('text', values.text)
@@ -130,7 +133,9 @@ export default function NewPost (props){
   </div>)
 
 }
-
+/**On successful post
+creation, the form view is emptied and addUpdate is executed so that the post list in
+the Newsfeed is updated with the new post. */
 NewPost.propTypes = {
   addUpdate: PropTypes.func.isRequired
 }

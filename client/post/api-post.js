@@ -1,5 +1,8 @@
 
+/**adding a create method to make a fetch call to the create API. */
 const create = async (params, credentials, post) => {
+/**This method, like the user edit fetch method, will send a multipart form submission
+using a FormData object that will contain the text field and the image file. */
     try {
         let response = await fetch('/api/posts/new/'+ params.userId, {
             method: 'POST',

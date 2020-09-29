@@ -6,6 +6,7 @@ import { follow } from '../../client/users/api-user'
 
 
 const create = (req, res, next) => {
+/**The create method will use the formidable module to access the fields and the image file */
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
     form.parse(req, async(err, fields, files) => {
@@ -16,6 +17,8 @@ const create = (req, res, next) => {
         }
         let post = new Post(fields)
         post.postedBy = req.profile
+/**the photo that's uploaded with a new post will be
+stored in the Post document in binary format. */
         if (files.photo){
             post.photo.data = fs.readFileSync(files.photo.path)
             post.photo.contentType = files.photo.type
@@ -30,8 +33,13 @@ const create = (req, res, next) => {
         }
     })
 }
+/**postByID will be similar to the userByID method, and it will attach the post
+retrieved from the database to the request object so that it can be accessed by the next
+method. */
 const postByID = async (req, res,next, id) => {
     try {
+/**The attached post data in this implementation will also contain the ID and name of
+the postedBy user reference since we are invoking populate(). */
         let post = await Post.findById(id).populate('postedBy', '_id name').exec()
         if (!post)
             return res.status('400').json({
@@ -99,6 +107,7 @@ const remove = async (req, res) => {
     }
 }
 
+/**The photo controller will return the photo data stored in MongoDB as an image file */
 const photo = (req, res, next) => {
     res.set("Content-Type", res.post.photo.contentType)
     return res.send(req.post.photo.data)
