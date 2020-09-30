@@ -87,6 +87,12 @@ export default function Post (props){
     setValues({...values, comments: comments})
   }
 
+/**in the delete post feature, is the call to the onRemove
+update method in the Post component when delete succeeds. The onRemove method
+is sent as a prop from either Newsfeed or Profile to update the list of posts in the
+state when the delete is successful. */
+
+// deletePost method is called when the delete button is clicked on a post.
   const deletePost = () => {   
     remove({
       postId: props.post._id
@@ -102,11 +108,15 @@ export default function Post (props){
   }
 
     return (
+/**The header will contain information such as the name, avatar, and link to the profile
+of the user who posted, as well as the date the post was created. */
       <Card className={classes.card}>
         <CardHeader
             avatar={
               <Avatar src={'/api/users/photo/'+props.post.postedBy._id}/>
             }
+/**The header will also conditionally show a delete button if the signed-in user is
+viewing their own post */
             action={props.post.postedBy._id === auth.isAuthenticated().user._id &&
               <IconButton onClick={deletePost}>
                 <DeleteIcon />
@@ -116,19 +126,29 @@ export default function Post (props){
             subheader={(new Date(props.post.created)).toDateString()}
             className={classes.cardHeader}
           />
+{/* The content section will show the text of the post and the image if the post contains a
+photo. */}
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
             {props.post.text}
           </Typography>
           {props.post.photo &&
             (<div className={classes.photo}>
+{/* The image is loaded by adding the photo API to the src attribute in the img tag if the
+given post contains a photo */}
               <img
                 className={classes.media}
                 src={'/api/posts/photo/'+props.post._id}
                 />
             </div>)}
         </CardContent>
+{/* The actions section will contain an interactive "like" option with a display of the
+total number of likes on the post and a comment icon with the total number of
+comments on the post. */}
         <CardActions>
+{/* The
+details of the likes for each post are retrieved within the post object that's received in
+the props. */}
           { values.like
             ? <IconButton onClick={clickLike} className={classes.button} aria-label="Like" color="secondary">
                 <FavoriteIcon />
@@ -141,6 +161,10 @@ export default function Post (props){
               </IconButton> <span>{values.comments.length}</span>
         </CardActions>
         <Divider/>
+{/* The comments section will contain all the comment-related elements in the Comments
+component and will get props such as the postId and the comments data, along
+with a state updating method that can be called when a comment is added or
+deleted in the Comments component */}
         <Comments postId={props.post._id} comments={values.comments} updateComments={updateComments}/>
       </Card>
     )

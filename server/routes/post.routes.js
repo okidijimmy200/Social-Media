@@ -38,6 +38,7 @@ router.route('/api/posts/comment')
 router.route('/api/posts/uncomment')
     .put(authCtrl.requireSignin, postCtrl.uncomment)
 
+// delete post API to delete post from database
 router.route('/api/posts/:postId')
     .delete(authCtrl.requireSignin, postCtrl.isPoster, postCtrl.remove)
 

@@ -115,3 +115,44 @@ given the addUpdate method as a prop
 --On successful post
 creation, the form view is emptied and addUpdate is executed so that the post list in
 the Newsfeed is updated with the new post.
+
+Lecture 8:
+The Post component
+--Post details in each post will be rendered in the Post component, which will receive
+the post data as props from the PostList component, as well as the onRemove prop,
+which needs to be applied if a post is deleted.
+
+Layout::
+--The Post component layout will have a header showing details of the poster, the
+content of the post, an actions bar with a count of likes and comments, and a
+comments section
+
+Header:
+--The header will contain information such as the name, avatar, and link to the profile
+of the user who posted, as well as the date the post was created.
+
+Content::
+--The content section will show the text of the post and the image if the post contains a
+photo.
+
+Actions::
+--The actions section will contain an interactive "like" option with a display of the
+total number of likes on the post and a comment icon with the total number of
+comments on the post.
+
+Comments::
+--The comments section will contain all the comment-related elements in the Comments
+component and will get props such as the postId and the comments data, along
+with a state updating method that can be called when a comment is added or
+deleted in the Comments component
+--Each post's
+header also shows a delete button to the creator of the post
+
+Deleting a post::
+--The delete button is only visible if the signed-in user and postedBy user are the
+same for the specific post being rendered.
+
+--in the delete post feature, is the call to the onRemove
+update method in the Post component when delete succeeds. The onRemove method
+is sent as a prop from either Newsfeed or Profile to update the list of posts in the
+state when the delete is successful.
