@@ -71,6 +71,8 @@ const remove = async (params, credentials) => {
     }
 }
 
+/**fetch method called like will be added to api-post.js, which
+will be used when the user clicks the like button. */
 const like = async (params, credentials, postId) => {
     try {
         let response = await fetch('/api/posts/like/', {
@@ -88,6 +90,7 @@ const like = async (params, credentials, postId) => {
     }
 }
 
+/**fetch method for unlike */
 const unlike = async (params, credentials, postId) => {
     try {
         let response = await fetch('/api/posts/unlike/', {

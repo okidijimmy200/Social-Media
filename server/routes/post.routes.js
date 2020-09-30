@@ -26,9 +26,11 @@ user. */
 router.route('/api/posts/feed/:userId')
     .get(authCtrl.requireSignin, postCtrl.listNewsFeed)
 
+/**The like API will be a PUT request that will update the likes array in the Post
+document. */
 router.route('/api/posts/like')
     .put(authCtrl.requireSignin, postCtrl.like)
-
+// unlike API
 router.route('/api/posts/unlike')
     .put(authCtrl.requireSignin, postCtrl.unlike)
 

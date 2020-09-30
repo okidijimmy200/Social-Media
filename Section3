@@ -156,3 +156,21 @@ same for the specific post being rendered.
 update method in the Post component when delete succeeds. The onRemove method
 is sent as a prop from either Newsfeed or Profile to update the list of posts in the
 state when the delete is successful.
+
+Lecture 9:
+Interacting with Posts::
+-- we will add the options to like and leave comments on individual posts.
+Likes:
+--The like option in the Post component's action bar section will allow the user to like
+or unlike a post, and also show the total number of likes for the post.
+
+The Unlike API::
+
+Checking if a post has been liked and counting likes::
+--When the Post component is rendered, we need to check if the currently signed-in
+user has liked the post or not so that the appropriate like option can be shown.
+
+--This checkLike function can be called while setting the initial value of the like state
+variable, which keeps track of whether the current user liked the given post or not.
+
+Handling like clicks::

@@ -112,6 +112,9 @@ const photo = (req, res, next) => {
     return res.send(req.post.photo.data)
 }
 
+/**in the like controller, the post ID that's received in the request body will be
+used to find the specific Post document and update it by pushing the current user's
+ID to the likes array */
 const like = async (req, res) => {
     try{
       let result = await Post.findByIdAndUpdate(req.body.postId, {$push: {likes: req.body.userId}}, {new: true})
@@ -123,6 +126,8 @@ const like = async (req, res) => {
     }
   }
 
+/**The unlike method in the controller will find the post by its ID and update the
+likes array by removing the current user's ID using $pull instead of $push. */
   const unlike = async (req, res) => {
     try{
       let result = await Post.findByIdAndUpdate(req.body.postId, {$pull: {likes: req.body.userId}}, {new: true})

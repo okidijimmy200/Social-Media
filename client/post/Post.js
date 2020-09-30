@@ -52,22 +52,40 @@ const useStyles = makeStyles(theme => ({
 export default function Post (props){
   const classes = useStyles()
   const jwt = auth.isAuthenticated()
+/**When the Post component is rendered, we need to check if the currently signed-in
+user has liked the post or not so that the appropriate like option can be shown. */
+
+/**The checkLike method also checks whether the currently signed-in user is
+referenced in the post's likes array or not. */
   const checkLike = (likes) => {
     let match = likes.indexOf(jwt.user._id) !== -1
     return match
   }
   const [values, setValues] = useState({
     like: checkLike(props.post.likes),
+  /**The likes count is also set initially when the Post component mounts and props are
+received by setting the likes value to the state with props.post.likes.length, */
     likes: props.post.likes.length,
     comments: props.post.comments
   })
-  
+  /**NB:
+   * The like value that's set in the state using the checkLike method can be used to
+render a heart outline button or a full heart button. A heart outline button will render
+if the user has not liked the post; clicking it will make a call to the like API, show the
+full heart button, and increment the likes count. The full heart button will indicate
+the current user has already liked this post; clicking this will call the unlike API,
+render the heart outline button, and decrement the likes count
+   */
+
+
   // useEffect(() => {
   //   setValues({...values, like:checkLike(props.post.likes), likes: props.post.likes.length, comments: props.post.comments})
   // }, [])
 
   
 
+  /**To handle clicks on the like and unlike buttons,we use the appropriate fetch method based on whether it is a "like" or
+"unlike" action, and then update the state of the like and likes count for the post */
   const clickLike = () => {
     let callApi = values.like ? unlike : like
     callApi({
