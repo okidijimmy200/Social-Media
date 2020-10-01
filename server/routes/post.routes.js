@@ -34,9 +34,11 @@ router.route('/api/posts/like')
 router.route('/api/posts/unlike')
     .put(authCtrl.requireSignin, postCtrl.unlike)
 
+    //comment route
 router.route('/api/posts/comment')
     .put(authCtrl.requireSignin, postCtrl.comment)
-
+/**To implement this delete comment feature, we need to add an uncomment API to the
+backend and then use it in the frontend */
 router.route('/api/posts/uncomment')
     .put(authCtrl.requireSignin, postCtrl.uncomment)
 
@@ -56,3 +58,4 @@ request, add the param call to post.routes.js, */
 router.param('postId', postCtrl.postByID)
 
 export default router
+

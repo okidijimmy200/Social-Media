@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     }
   }))
 
-export default function Users() {
+export default function Users() { 
     const classes = useStyles()
 /**We are using the built-in React hook, useState, to add state to this function
 component. By calling this hook, we are essentially declaring a state variable
@@ -46,15 +46,15 @@ user data into the component by updating the state. */
         const signal = abortController.signal
 
         list(signal).then((data) => {
-            if (data && data.error) {
-                console.log(data.error)
-            } else {
-                setUsers(data)
-            }
-        })
+        if (data && data.error) {
+            console.log(data.error)
+        } else {
+            setUsers(data)
+     }
+    })
 /**In this effect, we also add a cleanup function to abort the fetch call when the
 component unmounts. */
-        return function cleanup() {
+        return function cleanup(){
             abortController.abort()
         }
 /**In the second argument of this useEffect hook, we pass an empty array so that this
@@ -64,34 +64,35 @@ render. */
 
  /**Finally, in the return of the Users function component, we add the actual view
 content */   
- return (
-     <Paper className={classes.root} elevation={4}>
-         <Typography variant="h6" className={classes.title}>
-             All Users
-         </Typography>
-         <List dense>
+    return (
+        <Paper className={classes.root} elevation={4}>
+        <Typography variant="h6" className={classes.title}>
+            All Users
+        </Typography>
+        <List dense>
 {/* to generate each list item, we iterate through the array of users in the
 state using the map function */}
-             {users.map( (item, i) => {
-                 return <Link to={"/user/" + item._id} key={i}>
-                     <ListItem button>
+             {users.map((item, i) => {
+          return <Link to={"/user/" + item._id} key={i}>
+                    <ListItem button>
 {/* A list item is rendered with an individual user's name
 from each item that's accessed per iteration on the users array. */}
-                         <ListItemAvatar>
-                             <Avatar>
-                                 <Person />
-                             </Avatar>
-                         </ListItemAvatar>
-                         <ListItemText primary={item.name} />
-                         <ListItemSecondaryAction>
-                             <IconButton>
-                                 <ArrowForward/>
-                             </IconButton>
-                         </ListItemSecondaryAction>
-                     </ListItem>
+<ListItemAvatar>
+                        <Avatar>
+                          <Person/>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={item.name}/>
+                      <ListItemSecondaryAction>
+                      <IconButton>
+                          <ArrowForward/>
+                      </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
                  </Link>
-             })}
-         </List>
-     </Paper>
- )
+               })
+             }
+        </List>
+      </Paper>
+    )
 }

@@ -49,14 +49,14 @@ const useStyles = makeStyles(theme => ({
   }))
 
  
-export default function Signup() {
+  export default function Signup (){
     const classes = useStyles()
     const [values, setValues] = useState({
-        name: '',
-        password: '',
-        email: '',
-        open: false,
-        error: ''
+      name: '',
+      password: '',
+      email: '',
+      open: false,
+      error: ''
     })
 
     /**define two handler functions to be called when the input values change or
@@ -64,7 +64,7 @@ the submit button is clicked. The handleChange function takes the new value that
 entered in the input field and sets it as the state. */
 
 const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value})
+  setValues({ ...values, [name]: event.target.value })
 }
 
 /**The clickSubmit function is called when the form is submitted. It takes the input
@@ -73,44 +73,41 @@ backend. Then, depending on the response from the server, either an error messag
 shown or a success dialog is shown */
 
 const clickSubmit = () => {
-    const user = {
-        name: values.name || undefined,
-        email: values.email || undefined,
-        password: values.password || undefined
+  const user = {
+    name: values.name || undefined,
+    email: values.email || undefined,
+    password: values.password || undefined
+  }
+  create(user).then((data) => {
+    if (data.error) {
+      setValues({ ...values, error: data.error})
+    } else {
+      setValues({ ...values, error: '', open: true})
     }
-
-    create(user).then((data) => {
-        if (data.error) {
-            setValues({ ...values, error:data.error})
-        }
-        else {
-            setValues({ ...values, error: '', open: true})
-        }
-    })
+  })
 }
 
 /**In the return function, we compose and style the form components in the signup
 view using components such as TextField from Material-UI. */
-return (
-    <div>
-       <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="h6" className={classes.title}>
-            Sign Up
-          </Typography>
-          <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
-          <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
-          <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <br/> {
-            values.error && (<Typography component="p" color="error">
-              <Icon color="error" className={classes.error}>error</Icon>
-              {values.error}</Typography>)
-          }
-        </CardContent>
-        <CardActions>
-          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-        </CardActions>
-      </Card>
+return (<div>
+  <Card className={classes.card}>
+    <CardContent>
+      <Typography variant="h6" className={classes.title}>
+        Sign Up
+      </Typography>
+      <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
+      <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
+      <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
+      <br/> {
+        values.error && (<Typography component="p" color="error">
+          <Icon color="error" className={classes.error}>error</Icon>
+          {values.error}</Typography>)
+      }
+    </CardContent>
+    <CardActions>
+      <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+    </CardActions>
+  </Card>
 
 {/* This return also contains an error message block, along with a Dialog component
 that is conditionally rendered depending on the signup response from the server. If
@@ -134,8 +131,7 @@ be rendered instead. */}
           </Link>
         </DialogActions>
       </Dialog>
-    </div>
-)
+    </div>)
 
 /**NB:
  * On successful account creation, the user is given confirmation and asked to sign in

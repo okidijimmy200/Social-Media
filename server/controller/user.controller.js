@@ -1,11 +1,11 @@
 import User from '../models/user.model'
 import extend from 'lodash/extend'
-import errorHandler from '../helpers/dbErrorHandler'
+import errorHandler from './../helpers/dbErrorHandler'
 import formidable from 'formidable'
 import fs from 'fs'
 
 // The default photo is retrieved and sent from the server's file system
-import profileImage from '../../client/assets/images/profile-pic.png'
+import profileImage from './../../client/assets/images/profile-pic.png'
 // import { exec } from 'child_process'
 
 /**--errorHandler helper to respond to route
@@ -14,6 +14,7 @@ requests with meaningful messages when a Mongoose error occurs */
 
 //When the Express app gets a POST request at '/api/users', it calls the create
 // function we defined in the controller.
+
 const create = async (req, res) => {
     /**new user with the user JSON object that's received in the POST
 request from the frontend within req.body. */
@@ -22,31 +23,28 @@ request from the frontend within req.body. */
     try {
         await user.save()
         return res.status(200).json({
-            message: "successfully signed up"
+          message: "Successfully signed up!"
         })
-    }
-    catch(err) {
+      } catch (err) {
         return res.status(400).json({
-            error: errorHandler.getErrorMessage(err)
+          error: errorHandler.getErrorMessage(err)
         })
-    }
+      }
 }
 
 /**The list controller function finds all the users from the database, populates only the
 name, email, created, and updated fields in the resulting user list, and then returns
 this list of users as JSON objects in an array to the requesting client. */
-const list = async(req, res) => {
-    try{
-        let users = await User.find().select('name email updated created')
-        res.json(users)
-
+const list = async (req, res) => {
+    try {
+      let users = await User.find().select('name email updated created')
+      res.json(users)
+    } catch (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
     }
-    catch(err){
-        return res.status(400).json({
-            error: errorHandler.getErrorMessage(err)
-        })
-    }
-}
+  }
 
 const userByID = async (req, res, next, id) => {
     try {
@@ -57,46 +55,46 @@ the following and followers lists. */
         let user = await User.findById(id).populate('following', '_id name')
         .populate('followers', '_id name')
         .exec()
-        if(!user)
-            return res.status('400').json({
-                error: "User not found"
-            })
+        if (!user)
+        return res.status('400').json({
+            error: "User not found"
+        })
 /**If a matching user is found in the database, the user object is appended to the request
 object in the profile key */
-        req.profile = user
-        next()
-    } catch(err) {
-        return res.status('400').json({
-            error: "Could not retireve user"
+    req.profile = user
+    next()
+    } catch (err) {
+    return res.status('400').json({
+        error: "Could not retrieve user"
         })
     }
- }
+}
 
 /**The read function retrieves the user details from req.profile and removes
 sensitive information, such as the hashed_password and salt values, before
 sending the user object in the response to the requesting client */
-const read = (req, res) => { 
+const read = (req, res) => {
     req.profile.hashed_password = undefined
     req.profile.salt = undefined
     return res.json(req.profile)
-}
+  }
 
-const update = async (req, res) => {
+const update = (req, res) => {
     // formidable allows us read the server and give us access to the fieds and file
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
     form.parse(req, async (err, fields, files) => {
-        if (err) {
-            return res.status(400).json({
-                error: "Photo could not be uploaded"
-            })
-        }
-        let user = req.profile
-        user = extend(user, fields)
-        user.updated = Date.now()
-        if(files.photo) {
-            user.photo = fs.readFileSync(files.photo.path)
-            user.photo.contentType = files.photo.type
+      if (err) {
+        return res.status(400).json({
+          error: "Photo could not be uploaded"
+        })
+      }
+      let user = req.profile
+      user = extend(user, fields)
+      user.updated = Date.now()
+      if(files.photo){
+        user.photo.data = fs.readFileSync(files.photo.path)
+        user.photo.contentType = files.photo.type
         }
     try {
     // This will store the uploaded file as data in the database
@@ -115,34 +113,34 @@ const update = async (req, res) => {
 
 /**The remove function retrieves the user from req.profile and uses the remove()
 query to delete the user from the database */
-const remove = async(req, res) => {
-    try {
-        let user = req.profile
-        let deletedUser = await user.remove()
-        deletedUser.hashed_password = undefined
-        deletedUser.salt = undefined
-        res.json(deletedUser)
-    }
-    catch(err) {
-        return res.status(400).json({
-            error: errorHandler.getErrorMessage(err)
-        })
-    }
- }
+const remove = async (req, res) => {
+  try {
+    let user = req.profile
+    let deletedUser = await user.remove()
+    deletedUser.hashed_password = undefined
+    deletedUser.salt = undefined
+    res.json(deletedUser)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
 
  //search for photo, if found send the response to the request at the photo route otherwise
 //  call next() to return default photo
 const photo = (req, res, next) => {
-    if(req.profile.data) {
-        res.set("Content-Type", req.profile.photo.contentType)
-        return res.send(req.profile.photo.data)
+    if(req.profile.photo.data){
+      res.set("Content-Type", req.profile.photo.contentType)
+      return res.send(req.profile.photo.data)
     }
     next()
-}
+  }
+  
 
 const defaultPhoto = (req, res) => {
     return res.sendFile(process.cwd()+profileImage)
-}
+  }
 
 /**The addFollowing controller method in the user controller will update the
 following array for the current user by pushing the followed user's reference into
@@ -239,5 +237,4 @@ export default {
     findPeople
 
 }
-
 

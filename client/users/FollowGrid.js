@@ -32,9 +32,8 @@ const useStyles = makeStyles(theme => ({
   }))
 
   export default function FollowGrid (props) {
-      const classes = useStyles()
-      return (
-        <div className={classes.root}>
+    const classes = useStyles()
+      return (<div className={classes.root}>
         <GridList cellHeight={160} className={classes.gridList} cols={4}>
           {props.people.map((person, i) => {
              return  <GridListTile style={{'height':120}} key={i}>
@@ -45,9 +44,10 @@ const useStyles = makeStyles(theme => ({
               </GridListTile>
           })}
         </GridList>
-      </div>
-      )
+      </div>)
   }
+  
   FollowGrid.propTypes = {
-      people: PropTypes.array.isRequired
+    people: PropTypes.array.isRequired
   }
+  

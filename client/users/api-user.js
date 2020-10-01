@@ -4,19 +4,19 @@ route, '/api/users', to create a new user in the backend with the provided data 
 
 const create = async (user) => {
     try {
-        let response = await fetch('/api/users/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-        return await response.json() //return the response from the server as a promise.
+      let response = await fetch('/api/users/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      return await response.json() //return the response from the server as a promise.
     } catch(err) {
         console.log(err)
+      }
     }
-}
 
 //LIST METHOD?/////////////
 /**The list method will use fetch to make a GET call to retrieve all the users in the
@@ -25,14 +25,14 @@ component. */
 
 const list = async (signal) => {
     try {
-        let response = await fetch('/api/users/', {
-            method: 'GET',
-            signal: signal
-        })
+      let response = await fetch('/api/users/', {
+        method: 'GET',
+        signal: signal
+      })
 /**The returned promise, if it resolves successfully, will give the component an array
 containing the user objects that were retrieved from the database */
         return await response.json()
-    } catch(err) {
+        } catch(err) {
         console.log(err)
     }
 }
@@ -46,7 +46,7 @@ requesting component must also provide valid credentials, which, in this case, w
 a valid JWT received after a successful sign-in. */
 
 const read = async (params, credentials, signal) => {
-    try{
+    try {
 /**The JWT is attached to the GET fetch call in the Authorization header using the
 Bearer scheme, and then the response from the server is returned to the component
 in a promise. */
@@ -57,17 +57,15 @@ in a promise. */
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + credentials.t
-            }
+              }
         })
 /**This promise, when it resolves, will either give the component the user
 details for the specific user or notify that access is restricted to authenticated users. */
         return await response.json()
-    }
-    catch(err){
+        } catch(err) {
         console.log(err)
     }
 }
-
 ////////////////////////////////////////////////////////////////
 ///////////////UPDATE USER//////////////////////////////////
 
@@ -77,13 +75,13 @@ backend. This is also a protected route that will require a valid JWT as the cre
 
 const update = async (params, credentials, user) => {
     try {
-        let response = await fetch('/api/users/'+ params.userId, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + credentials.t
-            },
-            body: user
+      let response = await fetch('/api/users/' + params.userId, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        },
+        body: user
 /**Since the content type of the data that's sent to the server is no longer
 'application/json', we also need to modify the update fetch method in apiuser.
 js to remove Content-Type */
@@ -91,11 +89,11 @@ js to remove Content-Type */
 /**this method will also return a promise
 containing the server's response to the user update request */
         return await response.json()
-    }
-    catch(err) {
+    } catch(err) {
         console.log(err)
+      }
     }
-}
+    
 
 ///////////////////////////////////////////////////////////////////
 //////////////DELETE USER/////////////////////////////////////
@@ -106,19 +104,18 @@ will require a valid JWT as a credential */
 
 const remove = async (params, credentials) => {
     try {
-        let response = await fetch('/api/users/'+ params.userId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + credentials.t
-            }
-        })
+      let response = await fetch('/api/users/' + params.userId, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        }
+      })
 /**The response from the server to the delete request will be returned to the component
 as a promise */
         return await response.json()
-    }
-    catch(err){
+        } catch(err) {
         console.log(err)
     }
 }
@@ -131,40 +128,39 @@ be similar, making calls to the respective routes with the current user's ID and
 credentials, and the followed or unfollowed user's ID. */
 
 const follow = async (params, credentials, followId) => {
-  try {
-    let response = await fetch('/api/users/follow/', {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + credentials.t
-      },
-      body: JSON.stringify({userId:params.userId, followId: followId })
-    })
-    return await response.json()
-  } catch(err) {
-    console.log(err)
+    try {
+      let response = await fetch('/api/users/follow/', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        },
+        body: JSON.stringify({userId:params.userId, followId: followId})
+      })
+      return await response.json()
+    } catch(err) {
+      console.log(err)
+    }
   }
-}
 
 //takes the unfollowed user's ID and calls the unfollow API,
 const unfollow = async (params, credentials, unfollowId) => {
-  try {
-    let response = await fetch('/api/users/unfollow/', {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + credentials.t
-      },
-      body: JSON.stringify({userId: params.userId, unfollowId: unfollowId})
-    })
-    return await response.json()
+    try {
+      let response = await fetch('/api/users/unfollow/', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        },
+        body: JSON.stringify({userId:params.userId, unfollowId: unfollowId})
+      })
+      return await response.json()
+    } catch(err) {
+      console.log(err)
+    }
   }
-  catch(err) {
-    console.log(err)
-  }
-}
 
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////findpeople////////////////////////////////////////////////////////
@@ -172,33 +168,33 @@ const unfollow = async (params, credentials, unfollowId) => {
 /**To use this list of users in the frontend, */
 const findPeople = async (params, credentials, signal) => {
     try {
-        let response = await fetch('/api/users/findpeople/' + params.userId, {
-            method: 'GET',
-            signal: signal,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + credentials.t
-            }
-        })
-        return await response.json()
-    }catch(err) {
-        console.log(err)
+      let response = await fetch('/api/users/findpeople/' + params.userId, {
+        method: 'GET',
+        signal: signal,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        }
+      })    
+      return await response.json()
+    } catch(err) {
+      console.log(err)
     }
-}
+  }
 
 //export the helper methods for the user CRUD-related API endpoints
-export { 
-    create, 
-    list, 
-    read, 
-    update, 
-    remove, 
-    unfollow, 
+export {
+    create,
+    list,
+    read,
+    update,
+    remove,
     follow,
+    unfollow,
     findPeople
-
-}
+  }
+  
 
 
   

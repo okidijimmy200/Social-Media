@@ -139,6 +139,9 @@ likes array by removing the current user's ID using $pull instead of $push. */
     }
   }
 
+  /**the comment controller will find the
+relevant post to be updated by its ID and push the comment object that's received in
+the request body to the comments array of the post. */
   const comment = async (req, res) => {
     let comment = req.body.comment
     comment.postedBy = req.body.userId
@@ -147,6 +150,8 @@ likes array by removing the current user's ID using $pull instead of $push. */
                               .populate('comments.postedBy', '_id name')
                               .populate('postedBy', '_id name')
                               .exec()
+/**In the response, the updated post object will be sent back with details of the
+postedBy users populated in the post and in the comments. */
       res.json(result)
     }catch(err){
       return res.status(400).json({
@@ -154,6 +159,9 @@ likes array by removing the current user's ID using $pull instead of $push. */
       })
     }
   }
+
+/**The uncomment controller method will find the relevant post by ID and pull the
+comment with the deleted comment's ID from the comments array in the post */
   const uncomment = async (req, res) => {
     let comment = req.body.comment
     try{
@@ -192,4 +200,3 @@ likes array by removing the current user's ID using $pull instead of $push. */
     uncomment,
     isPoster
   }
-  

@@ -174,3 +174,44 @@ user has liked the post or not so that the appropriate like option can be shown.
 variable, which keeps track of whether the current user liked the given post or not.
 
 Handling like clicks::
+
+Lecture 10
+Comments:
+--The comments section in each post will allow signed-in users to add comments, see
+the list of comments, and delete their own comments.
+--Any changes to the comment
+list, such as a new addition or removal, will update the comments, as well as the
+comment count in the action bar section of the Post component.
+
+Adding a comment::
+--we need to implement an API that receives the
+comment details from the client- side and updates the Post document. Then, we need
+to create the UI in the frontend, which allows us to compose a new comment and
+submit it to the backend API.
+
+The Comment API::
+
+--Writing something in the view
+---The add comment section in the Comments component will allow the signed-in user to
+type in the comment text:
+---This will contain an avatar showing the user's photo and a text field, which will add
+the comment when the user presses the Enter key.
+
+Listing comments::
+
+Deleting a comment::
+--Clicking the delete button in a comment will update the post in the database by
+removing the comment from the comments array in the corresponding post.
+
+The Uncomment API::
+
+Removing a comment from the view::
+--On successfully removing a comment from the backend, the updateComments
+method that's sent in the props from the Post component will be invoked. This will
+update the state of the Post component to update the view
+
+Comment count update
+---This relationship between the comment count in the Post component and the
+comments that are rendered and updated in the Comments component gives a simple
+demonstration of how changing data is shared among nested components in React to
+create dynamic and interactive user interfaces.

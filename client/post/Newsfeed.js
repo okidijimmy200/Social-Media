@@ -31,65 +31,65 @@ const useStyles = makeStyles(theme => ({
 across the components when the post data is modified within the child components,
 such as the addition of a new post in the NewPost component or the removal of a post
 from the PostList component. */
-      const classes = useStyles()
-      const [posts, setPosts] = useState([])
-      const jwt = auth.isAuthenticated()
+    const classes = useStyles()
+    const [posts, setPosts] = useState([])
+    const jwt = auth.isAuthenticated()
 
 /**listNewsFeed the fetch method that will load the posts that are rendered in PostList, which
 is added as a child component to the Newsfeed component. So, this fetch needs to be
 called in the useEffect hook in the Newsfeed component */
-      useEffect(() => {
-          const abortController = new AbortController()
-          const signal = abortController.signal
+    useEffect(() => {
+      const abortController = new AbortController()
+      const signal = abortController.signal
 /**Here specifically, in the Newsfeed component we initially make a call to the server to
 fetch a list of posts from people that the currently signed-in user follows. */
-          listNewsFeed({
-              userId: jwt.user._id
-          }, {
-              t: jwt.token
-
-          }, signal).then((data) => {
-              if (data.error) {
-                  console.log(data.error)
-              } else {
-                  setPosts(data)
-              }
-          })
-          return function cleanup() {
-              abortController.abort()
+        listNewsFeed({
+          userId: jwt.user._id
+        }, {
+          t: jwt.token
+        }, signal).then((data) => {
+          if (data.error) {
+            console.log(data.error)
+          } else {
+            setPosts(data)
           }
-      }, [])
+        })
+        return function cleanup(){
+          abortController.abort()
+        }
+
+        }, [])
 /**The addPost function defined in the Newsfeed component will take the new post
 that was created in the NewPost component and add it to the posts in the state. */
       const addPost = (post) => {
-          const updatedPosts = [...posts]
-          updatedPosts.unshift(post)
-          setPosts(updatedPosts)
+        const updatedPosts = [...posts]
+        updatedPosts.unshift(post)
+        setPosts(updatedPosts)
       }
 /**The removePost function defined in the Newsfeed component will take the deleted
 post from the Post component in PostList and remove it from the posts in the state. */
-      const removePost = (post) => {
-          const updatedPosts = [...posts]
-          const index = updatedPosts.indexOf(post)
-          updatedPosts.splice(index, 1)
-          setPosts(updatedPosts)
-      }
+    const removePost = (post) => {
+      const updatedPosts = [...posts]
+      const index = updatedPosts.indexOf(post)
+      updatedPosts.splice(index, 1)
+      setPosts(updatedPosts)
+    }
 /**As the parent component, Newsfeed will control the state of the posts' data that's
 rendered in the child components */
 
 /**As the posts are updated in the Newsfeed's state this way, the PostList will render
 the changed list of posts to the viewer */
-      return (
-        <Card className={classes.card}>
+        return (
+          <Card className={classes.card}>
             <Typography type="title" className={classes.title}>
-                 Newsfeed
+              Newsfeed
             </Typography>
             <Divider/>
             <NewPost addUpdate={addPost}/>
             <Divider/>
 {/* Then we set
 this list of posts to the state to be rendered in the PostList component.. */}
-            <PostList removeUpdate={removePost} posts={posts}/>
+           <PostList removeUpdate={removePost} posts={posts}/>
       </Card>
-      )
-  }
+    )
+}

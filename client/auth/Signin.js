@@ -53,17 +53,7 @@ variables. We will use these for the redirect. */
 to true when the user successfully signs in after submitting the form and the
 received JWT is stored in sessionStorage. */
         redirectToReferrer: false
-    })
-
-///////////////////////////////////////////////////////////////////
-//////////////////////handleChange//////////////////////////////////
-    /**define two handler functions to be called when the input values change or
-the submit button is clicked. The handleChange function takes the new value that's
-entered in the input field and sets it as the state. */
-
-const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value})
-}
+})
 
 ////////////////////////////////////////////////////////////////////////////
 /////////////////////clickSubmit////////////////////////////
@@ -72,57 +62,65 @@ implementation will go in the clickSubmit() function so that it can be called on
 form submit. */
     const clickSubmit = () => {
         const user = {
-            email: values.email || undefined,
-            password: values.password || undefined
+        email: values.email || undefined,
+        password: values.password || undefined
         }
 
         signin(user).then((data) => {
-            if (data.error) {
-                setValues({ ...values, error:data.error})
-            }
-            else {
-                auth.authenticate(data, () => {
-                    setValues({ ...values, error: '', redirectToReferrer: true})
-                })
-            }
+        if (data.error) {
+            setValues({ ...values, error: data.error})
+        } else {
+            auth.authenticate(data, () => {
+            setValues({ ...values, error: '',redirectToReferrer: true})
+            })
+        }
         })
+    }
+
+///////////////////////////////////////////////////////////////////
+//////////////////////handleChange//////////////////////////////////
+    /**define two handler functions to be called when the input values change or
+the submit button is clicked. The handleChange function takes the new value that's
+entered in the input field and sets it as the state. */
+
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value })
     }
 /**The redirection will happen conditionally based on the redirectToReferrer value
 using the Redirect component from React Router. We add the redirect code inside
 the function before the return block, as follows. */
 
-    const { from } = props.location.state || {
+    const {from} = props.location.state || {
 /**The Redirect component, if rendered, will take the app to the last location that was
 received in the props or to the Home component at the root. */
-        from: {
-            pathName: '/'
-        }
+    from: {
+        pathname: '/'
+    }
     }
 
-    const { redirectToReferrer } = values
+    const {redirectToReferrer} = values
     if (redirectToReferrer) {
-        return (<Redirect to={from}/>)
-    }
+      return (<Redirect to={from}/>)
+  }
 
-    return (
-        <Card className={classes.card}>
-            <CardContent>
-                <Typography variant="h6" className={classes.title}>
-                    Sign In
-                </Typography>
-                <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal" /> <br/>
-                <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal" /> <br/>
-                {
-                    values.error && (<Typography component="p" color="error" >
-                        <Icon color="error" className={classes.error}>error</Icon>
-                        {values.error}
-                    </Typography>)
-                }
-                
-            </CardContent>
-            <CardActions>
-                <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-            </CardActions>
-        </Card>
+  return (
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography variant="h6" className={classes.title}>
+            Sign In
+          </Typography>
+          <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
+          <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
+          <br/> {
+            values.error && (<Typography component="p" color="error">
+              <Icon color="error" className={classes.error}>error</Icon>
+              {values.error}
+            </Typography>)
+          }
+        </CardContent>
+        <CardActions>
+          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+        </CardActions>
+      </Card>
     )
 }

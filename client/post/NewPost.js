@@ -139,4 +139,3 @@ the Newsfeed is updated with the new post. */
 NewPost.propTypes = {
   addUpdate: PropTypes.func.isRequired
 }
-
